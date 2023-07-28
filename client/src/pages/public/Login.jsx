@@ -9,10 +9,13 @@ import { apiLogin, apiResgister } from "../../apis/user";
 import Swal from 'sweetalert2'
 import { useNavigate } from "react-router-dom";
 import path from '../../ultils/path'
+import { register} from '../../store/user/userSlice'
+import { useDispatch } from "react-redux";
 
 
 const Login = () => {
   const navigate =useNavigate()
+  const dispatch=useDispatch()
   const [isRegister, setIsRegister] = useState(false)
   const resetPayload = () => {
     setPayload({
@@ -47,6 +50,11 @@ const Login = () => {
     } else {
       const rs = await apiLogin(data)
       if(rs.success){
+            dispatch(register({
+              isLoggedIn: true,
+              token:rs.accessToken,
+              userData:rs.userData
+            }))
             navigate(`/${path.HOME}`)
       }else  Swal.fire('Oops!',rs.mes,'error')
       
