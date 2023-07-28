@@ -10,7 +10,7 @@ const {MdKeyboardArrowRight}=icons
 const Home = () => {
   const {newProducts}=useSelector(state=>state.products)
   const {categories}=useSelector(state=>state.app)
-  console.log(categories)
+ 
   return (
     <>
     <div className='w-main flex'>

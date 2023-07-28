@@ -19,7 +19,7 @@ instance.interceptors.response.use(function(response){
 
 }, function(error){
 
-    return error.data;
+    return error.response.data;
     
 })
 

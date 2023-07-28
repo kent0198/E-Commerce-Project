@@ -4,6 +4,8 @@ import lable from '../assets/lable.png'
 import {renderStarFromNumber}  from "../ultils/helper"
 import {SelectOption} from './index'
 import icons from '../ultils/icons'
+import { Link } from 'react-router-dom'
+import path from '../ultils/path'
 
 const {
   AiFillEye,
@@ -12,9 +14,11 @@ const {
 }=icons
 const Product = ({productData , isNew}) => {
   const [isShowOption, setIsShowOption] = useState(false)
+  //details products/pid/title/
   return (
     <div className='w-full text-base '>
-      <div className='w-full border p-[15px] flex flex-col items-center relative '
+      <Link className='w-full border p-[15px] flex flex-col items-center relative '
+          to={`/${path.DETAIL_PRODUCT}/${productData?._id}/${productData?.title}`}
           onMouseEnter={e=>{
             e.stopPropagation()
             setIsShowOption(true)
@@ -38,7 +42,7 @@ const Product = ({productData , isNew}) => {
       <img src={lable} alt="" className='absolute top-[20px] left-[200px] w-[100px] h-[40px] object-cover'/>
      {isNew ?  <span className='font-bold top-[18px] left-[232px] text-white absolute'>New</span> : 
       <span className='font-bold top-[18px] left-[220px] text-white absolute'>Trending</span> }
-      </div>
+      </Link>
       <div className='flex flex-col gap-2 text-center '>
         <span className='line-clamp-1'>{productData?.title}</span>
         <span className='flex justify-center'>{renderStarFromNumber(productData?.totalRatings)}</span>

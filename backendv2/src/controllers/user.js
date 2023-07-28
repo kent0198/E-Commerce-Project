@@ -6,10 +6,10 @@ const crypto = require('crypto')
 
 
 const register = asyncHandler(async (req, res) => {
-    const { email, password, firstname, lastname, mobile } = req.body
-    if (!email || !password || !lastname || !firstname||!mobile)
+    const { email, password, firstname, lastname,phone } = req.body
+    if (!email || !password || !lastname || !firstname ||!phone)
         return res.status(400).json({
-            sucess: false,
+            success: false,
             mes: 'Missing inputs'
         })
 
@@ -28,7 +28,7 @@ const login = asyncHandler(async (req, res) => {
     const { email, password } = req.body
     if (!email || !password)
         return res.status(400).json({
-            sucess: false,
+            success: false,
             mes: 'Missing inputs'
         })
     // plain object
@@ -44,7 +44,7 @@ const login = asyncHandler(async (req, res) => {
         // Lưu refresh token vào cookie
         res.cookie('refreshToken', newRefreshToken, { httpOnly: true, maxAge: 7 * 24 * 60 * 60 * 1000 })
         return res.status(200).json({
-            sucess: true,
+            success: true,
             accessToken,
             userData
         })

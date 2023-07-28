@@ -11,5 +11,9 @@ export {default as FeatureProducts} from './FeatureProducts'
 export {default as ProductCard} from './ProductCard'
 export {default as CustomSlider} from './CustomSlider'
 export {default as BlogPost} from './BlogPost'
+export {default as TopHeader} from './TopHeader'
+export {default as Footer} from './Footer'
+export {default as InputField} from './InputField'
+export {default as Button} from './Button'
 
 

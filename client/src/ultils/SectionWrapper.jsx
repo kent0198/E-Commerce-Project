@@ -6,7 +6,6 @@ import { staggerContainer } from "./motion";
 
 const StarWrapper = (Component, idName) =>
   function HOC() {
-    
     return (
       <motion.section
          variants={staggerContainer()}
@@ -16,9 +15,7 @@ const StarWrapper = (Component, idName) =>
          className={`${styles.padding} max-w-7xmx-auto relative z-0 pt-10`}
       >
         <span className='hl ash-span' id={idName}>
-       
         </span>
-
         <Component />
       </motion.section>
     );
