@@ -63,7 +63,7 @@ const Login = () => {
   }, [payload, isRegister])
   return (
     <div
-      className={` flex xl:flex-row flex-col-reverse gap-10 overflow-hidden bg-blue-300`}
+      className={` flex xl:flex-row flex-col-reverse gap-10 overflow-hidden bg-blue-300 h-[706px]`}
     >
       <motion.div
         variants={slideIn("left", "tween", 0.2, 1)}

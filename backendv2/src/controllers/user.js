@@ -3,6 +3,7 @@ const asyncHandler = require('express-async-handler')
 const { generateAccessToken, generateRefreshToken } = require('../middlewares/jwt')
 const jwt = require('jsonwebtoken')
 const crypto = require('crypto')
+const sendMail=require('../util/sendMail')
 
 
 const register = asyncHandler(async (req, res) => {
@@ -96,7 +97,7 @@ const logout = asyncHandler(async (req, res) => {
     })
 })
 
-/* const forgotPassword = asyncHandler(async (req, res) => {
+const forgotPassword = asyncHandler(async (req, res) => {
     const { email } = req.query
     if (!email) throw new Error('Missing email')
     const user = await User.findOne({ email })
@@ -104,7 +105,9 @@ const logout = asyncHandler(async (req, res) => {
     const resetToken = user.createPasswordChangedToken()
     await user.save()
 
-    const html = `Xin vui lòng click vào link dưới đây để thay đổi mật khẩu của bạn.Link này sẽ hết hạn sau 15 phút kể từ bây giờ. <a href=${process.env.URL_SERVER}/api/user/reset-password/${resetToken}>Click here</a>`
+    const html = `Xin vui lòng click vào link dưới đây để thay đổi
+     mật khẩu của bạn.Link này sẽ hết hạn sau 15 phút kể từ bây 
+     giờ. <a href=${process.env.URL_SERVER}/api/user/reset-password/${resetToken}>Click here</a>`
 
     const data = {
         email,
@@ -116,7 +119,27 @@ const logout = asyncHandler(async (req, res) => {
         rs
     })
 })
- */
+
+const resetPassword =asyncHandler(async(req,res)=>{
+        const {password,token}=req.body
+        if(!password ||!token) throw new Error('Missing inputs') 
+        const passwordResetToken=crypto.createHash('sha256').update(token).digest('hex')
+        const user=await User.findOne({
+            passwordResetToken,passwordResetExpires:{$gt:Date.now()}
+        })
+        if(!user) throw new Error('Invalid reset token')
+        user.password=password
+        user.passwordResetToken=undefined
+        user.passwordChangedAt=Date.now()
+        user.passwordResetExpires=undefined
+        await user.save()
+        return res.status(200).json({
+            success:user?true:false,
+            mes:user?'Updated password':'Something went wrong'
+        })
+})
+
+
 
 const getUsers=asyncHandler(async(req, res)=>{
     const response=await User.find().select('-refreshToken -password -role')
@@ -213,4 +236,6 @@ module.exports={
     updateUserByAdmin,
     updateUserAdrress,
     updateCart,
+    forgotPassword,
+    resetPassword,
 }

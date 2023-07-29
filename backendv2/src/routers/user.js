@@ -14,6 +14,8 @@ router.put('/current',[verifyAccessToken],ctrls.updateUser)
 router.put('/',[verifyAccessToken,isAdmin],ctrls.updateUserByAdmin)
 router.put('/address',[verifyAccessToken],ctrls.updateUserAdrress)
 router.put('/cart',[verifyAccessToken],ctrls.updateCart)
+router.get('/forgotpassword',ctrls.forgotPassword)
+router.put('/resetpassword',ctrls.resetPassword)
 
 
 module.exports =router
