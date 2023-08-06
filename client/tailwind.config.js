@@ -4,6 +4,13 @@ module.exports = {
     "./public/index.html",
   ],
   theme: {
+    listStyleType: {
+      none: 'none',
+      disc: 'disc',
+      decimal: 'decimal',
+      square: 'square',
+      roman: 'upper-roman',
+    },
     fontFamily:{
       man:['Poppins','sans-serif;']
     },
@@ -12,7 +19,8 @@ module.exports = {
         main:'1220px'
       },
       backgroundColor:{
-        main:'#ee3131'
+        main:'#ee3131',
+        overplay:'rgba(0,0,0,0.7)',
       },
       colors:{
         main:'#ee3131',
@@ -23,6 +31,9 @@ module.exports = {
         '3':'3 3 0%',
         '4':'4 4 0%',
         '5':'5 5 0%',
+        '6':'6 6 0%',
+        '7':'7 7 0%',
+        '8':'8 8 0%',
       },
       keyframes:{
         'slide-top':{
@@ -42,6 +53,7 @@ module.exports = {
     },
   },
   plugins: [
-    require("@tailwindcss/line-clamp")
+    require("@tailwindcss/line-clamp"),
+    require('@tailwindcss/forms')({strategy:'class'}),
   ],
 }

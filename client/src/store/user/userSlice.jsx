@@ -1,42 +1,42 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-
+import * as actions from './asyncActions'
 
 export const userSlice=createSlice({
     name:'user',
     initialState:{
-        isLoggedIn:null,
+        isLoggedIn:false,
         current:null,
-        token:null
+        token:null,
+        isLoading:false,
     },
     reducers:{
-        register:(state, action)=>{
+        login:(state, action)=>{
             state.isLoggedIn=action.payload.isLoggedIn
-            state.current=action.payload.userData
             state.token=action.payload.token
-        }
+        },
+        logout:(state, action)=>{
+            state.isLoggedIn=false
+            state.token=null
+        },
     },
-   /*  //code logic xu li async action 
+    //code logic xu li async action 
     extraReducers:(builder)=>{
-        builder.addCase(actions.getNewProducts.pending, (state)=>{
+        builder.addCase(actions.getCurrent.pending, (state)=>{
             state.isLoading=true;
         })
         //thuc hien action get Api
-        builder.addCase(actions.getNewProducts.fulfilled, (state, action)=>{
+        builder.addCase(actions.getCurrent.fulfilled, (state, action)=>{
             state.isLoading=false;
-            state.newProducts=action.payload;
+            state.current=action.payload;
         });
         //Khi thuc hien that bai 
-        builder.addCase(actions.getNewProducts.rejected, (state, action)=>{
+        builder.addCase(actions.getCurrent.rejected, (state, action)=>{
             state.isLoading=false;
-            if (action.payload) {
-                state.errorMessage = action.payload.message;
-              } else {
-                state.errorMessage = "An error occurred.";
-              }
+            state.current=null;
         })
-    } */
+    }
 })
 
-export const {register}=userSlice.actions
+export const {login,logout}=userSlice.actions
 
 export default userSlice.reducer

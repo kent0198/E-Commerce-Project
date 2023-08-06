@@ -1,12 +1,13 @@
-const User=require("../models/user")
+const User = require("../models/user")
 const asyncHandler = require('express-async-handler')
 const { generateAccessToken, generateRefreshToken } = require('../middlewares/jwt')
 const jwt = require('jsonwebtoken')
 const crypto = require('crypto')
-const sendMail=require('../util/sendMail')
+const sendMail = require('../util/sendMail')
+const makeToken = require('uniqid')
 
 
-const register = asyncHandler(async (req, res) => {
+/* const register = asyncHandler(async (req, res) => {
     const { email, password, firstname, lastname,phone } = req.body
     if (!email || !password || !lastname || !firstname ||!phone)
         return res.status(400).json({
@@ -24,6 +25,52 @@ const register = asyncHandler(async (req, res) => {
         })
     }
 })
+ */
+const register = asyncHandler(async (req, res) => {
+    const { email, password, firstname, lastname, phone } = req.body
+    if (!email || !password || !lastname || !firstname || !phone)
+        return res.status(400).json({
+            success: false,
+            mes: 'Missing inputs'
+        })
+    const user = await User.findOne({ email })
+    if (user) throw new Error('User has existed')
+    else {
+        const token =makeToken()
+        res.cookie('dataregister',{...req.body,token},{httpOnly:true,maxAge:15*60*1000})
+    
+        const html = `Xin vui lòng click vào link dưới đây để thay đổi
+         mật khẩu của bạn.Link này sẽ hết hạn sau 15 phút kể từ bây 
+         giờ. <a href=${process.env.URL_SERVER}/api/user/finalregister/${token}>Click here</a>`
+    
+         await sendMail({email,html, subject :'Register done'})
+         return res.json({
+            success:true, 
+            mes:'Please check your email to active account '
+        })
+    }
+})
+
+const finalRegister = asyncHandler(async (req, res) => {
+    const cookie = req.cookies
+    const { token } = req.params
+    if (!cookie || cookie?.dataregister?.token !== token){
+        res.clearCookie('dataregister')
+        return res.redirect(`${process.env.CLIENT_URL}/finalregister/failed`)
+    } 
+        
+    const newUser=await User.create({
+        email:cookie?.dataregister.email,
+        password:cookie?.dataregister.password,
+        phone:cookie?.dataregister.phone,
+        firstname:cookie?.dataregister.firstname,
+        lastname:cookie?.dataregister.lastname,
+    })
+    res.clearCookie('dataregister')
+   if(newUser) return res.redirect(`${process.env.CLIENT_URL}/finalregister/success`)
+   else
+        return res.redirect(`${process.env.CLIENT_URL}/finalregister/failed`)
+})
 
 const login = asyncHandler(async (req, res) => {
     const { email, password } = req.body
@@ -37,7 +84,7 @@ const login = asyncHandler(async (req, res) => {
     if (response && await response.isCorrectPassword(password)) {
         // Tách password và role ra khỏi response
         const { password, role, refreshToken, ...userData } = response.toObject()
-      
+
         const accessToken = generateAccessToken(response._id, role)
         const newRefreshToken = generateRefreshToken(response._id)
         // Lưu refresh token vào database
@@ -69,8 +116,8 @@ const refreshAccessToken = asyncHandler(async (req, res) => {
     // Check xem có token hay không
     if (!cookie && !cookie.refreshToken) throw new Error('No refresh token in cookies')
     // Check token có hợp lệ hay không
-    jwt.verify(cookie.refreshToken, process.env.JWT_SECRET,async(err, decode)=>{
-        if (err) throw new Error  ('Invalid refresh token')
+    jwt.verify(cookie.refreshToken, process.env.JWT_SECRET, async (err, decode) => {
+        if (err) throw new Error('Invalid refresh token')
         const response = await User.findOne({ _id: decode._id, refreshToken: cookie.refreshToken })
         return res.status(200).json({
             success: response ? true : false,
@@ -78,7 +125,6 @@ const refreshAccessToken = asyncHandler(async (req, res) => {
         })
     })
 })
-
 
 const logout = asyncHandler(async (req, res) => {
 
@@ -98,7 +144,7 @@ const logout = asyncHandler(async (req, res) => {
 })
 
 const forgotPassword = asyncHandler(async (req, res) => {
-    const { email } = req.query
+    const { email } = req.body
     if (!email) throw new Error('Missing email')
     const user = await User.findOne({ email })
     if (!user) throw new Error('User not found')
@@ -107,48 +153,47 @@ const forgotPassword = asyncHandler(async (req, res) => {
 
     const html = `Xin vui lòng click vào link dưới đây để thay đổi
      mật khẩu của bạn.Link này sẽ hết hạn sau 15 phút kể từ bây 
-     giờ. <a href=${process.env.URL_SERVER}/api/user/reset-password/${resetToken}>Click here</a>`
+     giờ. <a href=${process.env.CLIENT_URL}/reset-password/${resetToken}>Click here</a>`
 
     const data = {
         email,
-        html
+        html,
+        subject: 'Forgot password',
     }
     const rs = await sendMail(data)
+   
     return res.status(200).json({
-        success: true,
-        rs
+        success: rs.response?.includes('OK')?true:false,
+        mes:rs.response?.includes('OK')?'Please check your email':'Error'
     })
 })
 
-const resetPassword =asyncHandler(async(req,res)=>{
-        const {password,token}=req.body
-        if(!password ||!token) throw new Error('Missing inputs') 
-        const passwordResetToken=crypto.createHash('sha256').update(token).digest('hex')
-        const user=await User.findOne({
-            passwordResetToken,passwordResetExpires:{$gt:Date.now()}
-        })
-        if(!user) throw new Error('Invalid reset token')
-        user.password=password
-        user.passwordResetToken=undefined
-        user.passwordChangedAt=Date.now()
-        user.passwordResetExpires=undefined
-        await user.save()
-        return res.status(200).json({
-            success:user?true:false,
-            mes:user?'Updated password':'Something went wrong'
-        })
-})
-
-
-
-const getUsers=asyncHandler(async(req, res)=>{
-    const response=await User.find().select('-refreshToken -password -role')
+const resetPassword = asyncHandler(async (req, res) => {
+    const { password, token } = req.body
+    if (!password || !token) throw new Error('Missing inputs')
+    const passwordResetToken = crypto.createHash('sha256').update(token).digest('hex')
+    const user = await User.findOne({
+        passwordResetToken, passwordResetExpires: { $gt: Date.now() }
+    })
+    if (!user) throw new Error('Invalid reset token')
+    user.password = password
+    user.passwordResetToken = undefined
+    user.passwordChangedAt = Date.now()
+    user.passwordResetExpires = undefined
+    await user.save()
     return res.status(200).json({
-        success:response ?true :false,
-        user:response
+        success: user ? true : false,
+        mes: user ? 'Updated password' : 'Something went wrong'
     })
 })
 
+const getUsers = asyncHandler(async (req, res) => {
+    const response = await User.find().select('-refreshToken -password -role')
+    return res.status(200).json({
+        success: response ? true : false,
+        user: response
+    })
+})
 
 const deleteUser = asyncHandler(async (req, res) => {
     const { _id } = req.query
@@ -186,45 +231,45 @@ const updateUserAdrress = asyncHandler(async (req, res) => {
     // 
     const { _id } = req.user
     if (!req.body.address) throw new Error('Missing inputs')
-    const response = await User.findByIdAndUpdate(_id, {$push:{address:req.body.address}}, { new: true }).select('-password -role -refreshToken')
+    const response = await User.findByIdAndUpdate(_id, { $push: { address: req.body.address } }, { new: true }).select('-password -role -refreshToken')
     return res.status(200).json({
         success: response ? true : false,
         updatedUser: response ? response : 'Some thing went wrong'
     })
 })
 
-const updateCart=asyncHandler(async(req, res)=>{
-    const {_id}=req.user
-    const {pid, quantity, color}=req.body
-    if (!pid || !quantity || !color) throw new Error ('Missing input')
-    const user=await User.findById(_id).select('cart')
-    const alreadyProduct=user?.cart?.find(el=>el.product.toString()==pid)
-    if(alreadyProduct){
-        if(alreadyProduct.color===color){
-            const response=await User.updateOne(
-                {cart:{$elemMatch:alreadyProduct}},{$set:{"cart.$.quantity":quantity}},{new:true}
-                )
-                return res.status(200).json({
-                    success: response? true: false,
-                    updatedUser:response? response :'Cannot update cart'
-                })
-        }else{
-            const response=await User.findByIdAndUpdate(_id,{$push:{cart:{product:pid, quantity, color}}},{new:true})
+const updateCart = asyncHandler(async (req, res) => {
+    const { _id } = req.user
+    const { pid, quantity, color } = req.body
+    if (!pid || !quantity || !color) throw new Error('Missing input')
+    const user = await User.findById(_id).select('cart')
+    const alreadyProduct = user?.cart?.find(el => el.product.toString() == pid)
+    if (alreadyProduct) {
+        if (alreadyProduct.color === color) {
+            const response = await User.updateOne(
+                { cart: { $elemMatch: alreadyProduct } }, { $set: { "cart.$.quantity": quantity } }, { new: true }
+            )
             return res.status(200).json({
-                success: response? true: false,
-                updatedUser:response? response :'Cannot update cart'
+                success: response ? true : false,
+                updatedUser: response ? response : 'Cannot update cart'
+            })
+        } else {
+            const response = await User.findByIdAndUpdate(_id, { $push: { cart: { product: pid, quantity, color } } }, { new: true })
+            return res.status(200).json({
+                success: response ? true : false,
+                updatedUser: response ? response : 'Cannot update cart'
             })
         }
-    }else{
-        const response=await User.findByIdAndUpdate(_id,{$push:{cart:{product:pid, quantity, color}}},{new:true})
-            return res.status(200).json({
-                success: response? true: false,
-                updatedUser:response? response :'Cannot update cart'
-            })
+    } else {
+        const response = await User.findByIdAndUpdate(_id, { $push: { cart: { product: pid, quantity, color } } }, { new: true })
+        return res.status(200).json({
+            success: response ? true : false,
+            updatedUser: response ? response : 'Cannot update cart'
+        })
     }
 })
 
-module.exports={
+module.exports = {
     register,
     login,
     getCurrent,
@@ -238,4 +283,5 @@ module.exports={
     updateCart,
     forgotPassword,
     resetPassword,
+    finalRegister,
 }

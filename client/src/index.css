@@ -21,16 +21,16 @@ body{
     --b-bg: 5px;
   }
 
-button.slick-prev{
+.custom-slider button.slick-prev{
    margin-left: 25px;
    z-index: 2;
 }
 
-button.slick-next{
+.custom-slider button.slick-next{
  width: 40px;
  height: 40px;
 }
-button.slick-next::before{
+.custom-slider button.slick-next::before{
         width: 10px !important;
         height: 10px !important;
         color: rgb(39, 39, 45);
@@ -38,8 +38,9 @@ button.slick-next::before{
         justify-content: center;
         align-items: center;
         display: block;
+        padding-left: 20px;
 }
-button.slick-prev::before{
+.custom-slider button.slick-prev::before{
     width: 20px !important;
     height: 20px !important;
     color: rgb(39, 39, 45);
@@ -234,3 +235,24 @@ button.slick-prev::before{
         -2.6em 0em 0 0em rgba(255, 255, 255, 0.7), -1.8em -1.8em 0 0em #ffffff;
     }
   }
+
+input{
+  appearance: none;
+}
+
+.my-masonry-grid {
+  display: -webkit-box; /* Not needed if autoprefixing */
+  display: -ms-flexbox; /* Not needed if autoprefixing */
+  display: flex;
+  margin-left: -8px; /* gutter size offset */
+  width: auto;
+}
+.my-masonry-grid_column {
+  padding-left: 12px; /* gutter size */
+  background-clip: padding-box;
+}
+
+/* Style your items */
+.my-masonry-grid_column > div { /* change div to reference your elements you put in <Masonry> */
+  margin-bottom: 30px;
+}

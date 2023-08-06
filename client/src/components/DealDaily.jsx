@@ -4,22 +4,27 @@ import { apiGetProducts } from '../apis/product'
 import {formatMoney} from '../ultils/helper'
 import {renderStarFromNumber}  from "../ultils/helper"
 import {CountDown} from './'
-
-
+import {Loading} from './'
+import {Link} from 'react-router-dom'
 const {AiFillStar,AiOutlineMenu}=icons
 let idInterval
 const DealDaily = () => {
+    
+    const [loading , setLoading]=useState(false)
     const [dealdaily, setDealDaily] =useState(null)
-
     const [hour, setHour]=useState(0)
     const [minute, setMinute]=useState(0)
     const [second, setSecond]=useState(0)
     const [expireTime, setExpireTime] = useState(false)
+    const [productData, setProductData] = useState(null)
     
     const fetchDealDayly=async () => {
-        const response = await apiGetProducts({limit:1,page:Math.round(Math.random()*10),totalRatings:5})
-        if (response.success) {
+        const response = await apiGetProducts({limit:1,page:Math.round(Math.random()*10),totalRatings:0})
+        console.log(response)
+        if (response?.success) {
         setDealDaily(response.products[0])
+       
+
         const h=29-new Date().getHours()
         const m=60-new Date().getMinutes
         const s=60-new Date().getSeconds
@@ -72,6 +77,7 @@ const DealDaily = () => {
             <span className='flex-8 font-semibold text-[18px] justify-center text-center text-gray-700'>DEAL DAILY</span>
             <span className='flex-1 '></span>
         </div>
+        <Link  to={`/${dealdaily?.category?.toLowerCase()}/${dealdaily?._id}/${dealdaily?.title}`}>
         <div className='w-full flex flex-col items-center pt-8 px-4 gap-2 border-red-300 '>
           <img src={dealdaily?.thumb||'https://tse2.mm.bing.net/th?id=OIP.sMerUYr1YD9aHIEPsepiTgHaHa&pid=Api&P=0&h=180'}
           alt=""
@@ -81,6 +87,7 @@ const DealDaily = () => {
           <span className='flex h-4'>{renderStarFromNumber(dealdaily?.totalRatings,20)}</span>  
           <span>{`${formatMoney(dealdaily?.price)}VND`}</span>
         </div>
+
         <div className='px-4 py-4'>
             <div className='flex justify-center text-center gap-2'>
                     <CountDown unit={'Hours'} number={hour}/>
@@ -90,11 +97,12 @@ const DealDaily = () => {
             <button
                 type='button'
                 className='flex gap-2 items-center justify-center w-full bg-main hover:bg-gray-800 text-white font-medium py-2 rounded-md mt-8 '
-            >
+                >
                 <AiOutlineMenu/>
                 <span>OPTION</span>
             </button>
         </div>
+        </Link>
     </div>
   )
 }

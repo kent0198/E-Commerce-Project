@@ -6,11 +6,14 @@ export const appSlice=createSlice({
     initialState:{
         categories:null,
         isLoading :false,
+        isShowModal:false,
+        modalChildren:null,
     },
     reducers:{
-      /*   logout:(state)=>{
-            state.isLoading=false
-        } */
+      ShowModal:(state, action)=>{
+        state.isShowModal=action.payload.isShowModal
+        state.modalChildren=action.payload.modalChildren
+      }
     },
     //code logic xu li async action 
     extraReducers:(builder)=>{
@@ -34,6 +37,6 @@ export const appSlice=createSlice({
     }
 })
 
-export const {}=appSlice.actions
+export const {ShowModal}=appSlice.actions
 
 export default appSlice.reducer

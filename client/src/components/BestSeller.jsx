@@ -19,7 +19,7 @@ const BestSeller = () => {
 
   const fetchProducts = async () => {
     const response = await apiGetProducts({ sort: '-sold' })
-    if(response.success){
+    if(response?.success){
       setBestSellers(response.products)
       setProducts(response.products)
     }
@@ -49,7 +49,7 @@ const BestSeller = () => {
         ))}
       </div>
       <div className='mt-4'>
-            <CustomSlider products={products} activedTab={activedTab}/>
+            <CustomSlider className='custom-slider' products={products} activedTab={activedTab}/>
       </div>
       <div className='w-full flex gap-4 mt-8'>
          <img

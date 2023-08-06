@@ -11,8 +11,7 @@ const FeatureProducts = () => {
   const [featureProduct , setFeatureProduct]=useState(null);
   const fetchProducts = async () => {
     const response = await apiGetProducts({limit:9, totalRatings:1})
-    console.log(response)
-    if(response.success) setFeatureProduct(response.products)
+    if(response?.success) setFeatureProduct(response.products)
   }
   useEffect(() => {
     fetchProducts()

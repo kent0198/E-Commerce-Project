@@ -27,3 +27,12 @@ export const navigation=[
     }
 ]
 
+export const colors=[
+    'black',
+    'white',
+    'gray',
+    'pink',
+    'yellow',
+    'green',
+    'blue',
+]

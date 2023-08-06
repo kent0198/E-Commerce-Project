@@ -4,6 +4,7 @@ const { verifyAccessToken, isAdmin } = require('../middlewares/verifyToken')
 
 
 router.post('/register', ctrls.register)
+router.get('/finalregister/:token', ctrls.finalRegister)
 router.post('/login', ctrls.login)
 router.get('/current',verifyAccessToken,ctrls.getCurrent)
 router.post('/refreshtoken',ctrls.refreshAccessToken)
@@ -14,7 +15,7 @@ router.put('/current',[verifyAccessToken],ctrls.updateUser)
 router.put('/',[verifyAccessToken,isAdmin],ctrls.updateUserByAdmin)
 router.put('/address',[verifyAccessToken],ctrls.updateUserAdrress)
 router.put('/cart',[verifyAccessToken],ctrls.updateCart)
-router.get('/forgotpassword',ctrls.forgotPassword)
+router.post('/forgotpassword',ctrls.forgotPassword)
 router.put('/resetpassword',ctrls.resetPassword)
 
 

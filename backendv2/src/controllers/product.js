@@ -38,10 +38,18 @@ const getProducts = asyncHandler(async (req, res) => {
     let queryString= JSON.stringify(queries)
     queryString=queryString.replace(/\b(gte|gt|lt|lte)\b/g,matchEl=>`$${matchEl}`)
     const formatedQueries=JSON.parse(queryString)
-
+    let colorQueryObject={}
     //Filltering
     if(queries?.title)  formatedQueries.title={$regex:queries.title,$options:'i'} //'i' bo qua viec tim kiem theo chu hoa hay thuong 
-    let queryCommand=Product.find(formatedQueries) // sau khi  chay de day thi queryCommand van co o trong hang doi chu chua duoc chay
+    if(queries?.category) formatedQueries.category={$regex:queries.category,$options:'i'}
+    if(queries?.color){
+        delete formatedQueries.color
+        const colorArr=queries.color?.split(',')
+        const colorQuery=colorArr.map(el=>({color:{$regex:el, $options:'i'}}))
+        colorQueryObject={$or:colorQuery}
+    } 
+    const q={...colorQueryObject,...formatedQueries}
+    let queryCommand=Product.find(q) // sau khi  chay de day thi queryCommand van co o trong hang doi chu chua duoc chay
     
 
     //sortting  abc,def=>[adc,def]=>abc def
@@ -69,7 +77,7 @@ const getProducts = asyncHandler(async (req, res) => {
     //So luong san pham thoa man dieu kien !== so luong san pham tra ve sau 1 lan goi API 
     queryCommand.then(async(respone)=>{
         try{
-        const counts=await Product.find(formatedQueries).countDocuments()
+        const counts=await Product.find(q).countDocuments()
         return res.status(200).json({
             success:respone ? true :false,
             counts,
@@ -118,17 +126,19 @@ const ratings=asyncHandler(async(req, res)=>{
         },{new:true})
     }
     //sum ratings
-    const updatedProducts=await Product.findById(pid)
-    const ratingCount=updatedProduct.ratings.length
-    const sumRatings=updatedProduct.ratings.reduce((sum, el)=>{
-        sum+ +el.star
-    },0)
-    updatedProducts.totalRatings=Math.round(sumRatings*10/ratingCount )/10
-    await  updateProduct.save()
+    const updatedProduct=await Product.findById(pid)
+
+    const ratingCount=updatedProduct?.ratings.length
+
+    const sumRatings=updatedProduct?.ratings.reduce((sum, el)=>sum+ +el.star,0)
+
+    updatedProduct.totalRatings=Math.round(sumRatings*10/ratingCount )/10 
+
+    await  updatedProduct.save()
 
     return res.status(200).json({
         status:true,
-        updatedProducts
+        updatedProduct,
     })
 })
 const updatedImageProduct=asyncHandler(async(req, res)=>{

@@ -3,11 +3,12 @@ const path={
     HOME:'',
     ALL:'*',
     LOGIN:'login',
-    PRODUCTS:'products',
+    PRODUCTS:':category',
     BLOGS:'blogs',
     SERVICES:'services',
     FAQs:'faqs',
-    DETAIL_PRODUCT_PID_TITLE:'detailproduct/:pid/:title',
-    DETAIL_PRODUCT:'detailproduct'
+    DETAIL__PRODUCT__CATEGORY__PID__TITLE:':category/:pid/:title',
+    FINAL_REGISTER:'finalregister/:status',
+    RESET_PASSWORD:'reset-password/:token',
 }
 export default path
