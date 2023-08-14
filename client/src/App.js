@@ -1,7 +1,14 @@
 import React, { useEffect } from 'react';
 import { Route, Routes } from 'react-router-dom'
 import path from './ultils/path'
-import { Login, Public, Home, DetailProduct, FQA, Blog, Service, Products, FinalRegister, ResetPassword } from './pages/public'
+import { Login, Public, 
+         Home, DetailProduct, 
+         FQA, Blog, Service, 
+         Products, FinalRegister, 
+         ResetPassword } 
+from './pages/public'
+import { AdminLayout,CreateProducts,Dashboard,ManageOrder,ManageProducts,ManageUser } from './pages/Admin';
+import {Personal,MemberLayout } from './pages/member';
 import { getCategories } from './store/app/asyncActions';
 import { useDispatch,useSelector } from 'react-redux'
 import { ToastContainer, toast } from 'react-toastify';
@@ -29,6 +36,16 @@ function App() {
           <Route path={path.SERVICES} element={<Service />} />
           <Route path={path.PRODUCTS} element={<Products />} />
           <Route path={path.RESET_PASSWORD} element={<ResetPassword />} />
+        </Route>
+        <Route path={path.ADMIN} element={<AdminLayout/>}>
+            <Route path={path.DASHBOARD} element={<Dashboard/>}/>
+            <Route path={path.MANAGE_ORDER} element={<ManageOrder/>}/>
+            <Route path={path.MANAGE_PRODUCTS} element={<ManageProducts/>}/>
+            <Route path={path.MANAGE_USER} element={<ManageUser/>}/>
+            <Route path={path.CREATE_PRODUCTS} element={<CreateProducts/>}/>
+        </Route>
+        <Route path={path.MEMBER} element={<MemberLayout/>}>
+             <Route path={path.PERSONAL} element={<Personal/>}/>
         </Route>
         <Route path={path.FINAL_REGISTER} element={<FinalRegister />} />
         <Route path={path.LOGIN} element={<Login />} />

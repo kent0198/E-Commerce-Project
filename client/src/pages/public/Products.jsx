@@ -1,6 +1,6 @@
 import React, { useState, useEffect,useCallback } from 'react'
 import { useParams, useSearchParams ,useNavigate, createSearchParams} from 'react-router-dom'
-import { Breadcumb, Product ,SearchItem,InputSelect} from '../../components'
+import { Breadcumb, Product ,SearchItem,InputSelect,Pagination} from '../../components'
 import { apiGetProducts } from '../../apis/product'
 import Masonry from 'react-masonry-css'
 import {sorts} from '../../ultils/contantsProject'
@@ -18,16 +18,18 @@ const Products = () => {
     const response = await apiGetProducts(queries)
     
     if(response.success){
-      setProducts(response.products)
+      setProducts(response)
+    
     }
   }
   
   useEffect(() => {
-    let param=[]
+   /*  let param=[]
     for (let i of params.entries()) param.push(i)
     const queries={}
+    for (let i of params) queries[i[0]]=i[1] */
     let priceQuery={}
-    for (let i of params) queries[i[0]]=i[1]
+    const queries=Object.fromEntries([...params])
     if(queries.to && queries.from){
       priceQuery={
         $and:[
@@ -46,6 +48,7 @@ const Products = () => {
     delete queries.from
     delete queries.to
     fecthProductsByCategory({...priceQuery,...queries})
+    window.scrollTo(0,0)
   }, [params])
 
 
@@ -59,10 +62,12 @@ const Products = () => {
   },[sort])
 
   useEffect(()=>{ 
+   if(sort){
     navigate({
       pathname:`/${category}`,
       search:createSearchParams({sort}).toString()
     })
+   }
   },[sort])
 
   return (
@@ -102,7 +107,7 @@ const Products = () => {
           breakpointCols={4}
           className="my-masonry-grid flex "
           columnClassName="my-masonry-grid_column">
-          {products?.map(el=>(
+          {products?.products?.map(el=>(
               <Product
               key={el._id}
               pid={el.id}
@@ -112,9 +117,10 @@ const Products = () => {
           ))}
         </Masonry>
       </div>
-      <div className='w-full h-[500px]'>
-
+      <div className='w-main m-auto my-4 flex justify-end'>
+            <Pagination totalCount={products?.counts}/>
       </div>
+      <div className='w-full h-[500px]'></div>
     </div>
   )
 }

@@ -9,7 +9,7 @@ export const formatMoney =number=>Number(number?.toFixed(1)).toLocaleString()
 export const renderStarFromNumber=(number,size)=>{
     //4=>[1,1,1,1,0]
     const starts=[]
-    if(!Number(number)) return 
+    number=Math.round(number)
     for (let i = 0 ; i <+number;i++) starts.push(<AiFillStar className="text-amber-400" size={size||16}/>)
     for (let i = 5 ; i >+number;i--) starts.push(<AiOutlineStar className="text-amber-400" size={size||16}/>)
 
@@ -46,3 +46,8 @@ export const validate=(payload, setInvalidFields)=>{
     return invalids
 }
 export const formatPrice=number=>Math.round(number/1000)*1000;
+
+export const generateRange=(start, end)=>{
+    const length=end+1-start
+    return Array.from({length},(_, index)=>start+index)
+}

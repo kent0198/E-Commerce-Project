@@ -1,6 +1,6 @@
 import React, { memo, useState, useCallback } from 'react'
 import { productDesTab } from '../ultils/contantsProject'
-import { VoteBar, Button, VoteOption } from './'
+import { VoteBar, Button, VoteOption, Comment } from './'
 import { renderStarFromNumber } from '../ultils/helper'
 import { apiRatings } from '../apis/product'
 import { useDispatch,useSelector } from 'react-redux'
@@ -43,7 +43,8 @@ const ProductDescription = ({ totalRatings, ratings ,nameProduct,pid,rerender}) 
       await apiRatings({
         star:score, 
         comment,
-        pid
+        pid,
+        updatedAt:Date.now()
       })
       dispatch(ShowModal({isShowModal:false,modalChildren:null}))
       rerender()
@@ -51,7 +52,7 @@ const ProductDescription = ({ totalRatings, ratings ,nameProduct,pid,rerender}) 
   return (
     <div >
      
-      <div className='flex items-center gap-2 relative'>
+      <div className='flex items-center gap-2 relative '>
         {productDesTab.map(el => (
           <span
             className={`p-2 px-4 cursor-pointer ${activedtab === +el.id ? 'bg-white border border-b-0' : 'bg-gray-200'}`}
@@ -59,15 +60,13 @@ const ProductDescription = ({ totalRatings, ratings ,nameProduct,pid,rerender}) 
             onClick={() => setActivedtab(el.id)}
           >{el.name}</span>
         ))}
-        <span
-          className={`p-2 px-4 cursor-pointer ${activedtab === 5 ? 'bg-white border border-b-0' : 'bg-gray-200'}`}
-          key={5}
-          onClick={() => setActivedtab(5)}
-        >REVIEW</span>
+        
       </div>
       <div className='w-full h-[300px] border p-4 text-sm text-gray-700'>
         {productDesTab.some(el => el.id === activedtab) && productDesTab.find(el => el.id === activedtab)?.content}
-        {activedtab === 5 && <div className='flex flex-col p-4'>
+      </div>
+      <div>
+      <div className='flex flex-col p-4'>
           <div className='flex'>
           <div className='flex-4 border flex-col flex items-center justify-center border-gray-600 rounded-3xl'>
             <span className='font-semibold text-3xl text-gray-700'>{`${totalRatings}/5`}</span>
@@ -96,9 +95,18 @@ const ProductDescription = ({ totalRatings, ratings ,nameProduct,pid,rerender}) 
                   Vote Now !
                   </Button>
           </div>
-        </div>}
-
-
+          <div>
+            {ratings?.map(el=>(
+              <Comment 
+                key={el._id} 
+                star={el.star} 
+                updatedAt={el.updatedAt} 
+                comment={el.comment}
+                name={`${el.postedBy?.lastname} ${el.postedBy?.firstname}`}
+                />
+            ))}
+          </div>
+        </div>
       </div>
     </div>
   )

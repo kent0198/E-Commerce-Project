@@ -1,4 +1,4 @@
-import React from 'react'
+import React,{memo} from 'react'
 import { useDispatch } from 'react-redux'
 import {ShowModal} from '../store/app/appSlice'
 
@@ -16,4 +16,4 @@ const ModalVote = ({children}) => {
   )
 }
 
-export default ModalVote
+export default memo(ModalVote)

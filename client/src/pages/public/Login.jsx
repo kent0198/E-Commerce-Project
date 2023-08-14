@@ -162,6 +162,7 @@ const Login = () => {
               value={payload.password}
               setValue={setPayload}
               nameKey='password'
+              type='password'
               invalidFields={invalidFields}
               setInvalidFieds={setInvalidFields}
             />

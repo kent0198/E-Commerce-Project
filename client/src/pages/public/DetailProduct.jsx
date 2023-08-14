@@ -136,11 +136,11 @@ const DetailProduct = () => {
               rerender={rerender}
               />
       </div>
-      <div className='w-main m-auto mt-8'>
+      <div className='w-main mt-10'>
             <h3 className='text-[20px] font-semibold py-[15px] border-b-2 border-main'>OTHER CUSTOMER ALSO LIKED</h3>
             <CustomSlider products={relatedProduct}/>
       </div>
-      <div className='h-[500px] w-full'></div>
+      <div className='h-[200px] w-full'></div>
     </div>
   )
 }

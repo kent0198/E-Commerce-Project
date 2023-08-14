@@ -1,7 +1,7 @@
 import React,{memo,useEffect,useState} from 'react'
 import icons from '../ultils/icons'
 import {colors} from '../ultils/contants'
-import { createSearchParams, useNavigate, useParams } from 'react-router-dom'
+import { createSearchParams, useNavigate, useParams,useSearchParams } from 'react-router-dom'
 import path from '../ultils/path'
 import { apiGetProducts } from '../apis/product'
 import useDebounce from '../hooks/useDebounce'
@@ -13,6 +13,7 @@ const SearchItem = ({name,activeClick,changeActiveFitler,type='checkbox'}) => {
   const {category}=useParams()
   const [selected, setselected] = useState([])
   const [bestPrice, setbestPrice] = useState(null)
+  const [params]=useSearchParams()
   const [price, setPrice]=useState({
     from:'',
     to:'',

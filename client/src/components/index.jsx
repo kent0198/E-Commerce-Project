@@ -26,5 +26,11 @@ export {default as VoteBar} from './VoteBar'
 export {default as Rating} from './Rating'
 export {default as VoteOption} from './VoteOption'
 export {default as ModalVote} from './ModalVote'
+export {default as Comment} from './Comment'
+export {default as PagiItem} from './PagiItem'
+export {default as Pagination} from './Pagination'
+export {default as AdminSideBar} from './AdminSideBar'
+export {default as InputForm} from './InputForm'
+export {default as Select} from './Select'
 
 
