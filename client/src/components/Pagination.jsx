@@ -16,10 +16,10 @@ const Pagination = ({totalCount}) => {
   }
   return (
     <div className='flex justify-between w-full'>
-      {!+params.get('page')&&
-        <span className='text-sm font-semibold'>{`Show products 1 - ${Math.min(+process.env.REACT_APP_PRODUCT_LIMIT,totalCount)}`}</span>
+      {!+params.get('page')?
+        <span className='text-sm font-semibold'>{`Show products 1 - ${Math.min(+process.env.REACT_APP_PRODUCT_LIMIT,totalCount)}`}</span>:''
       }
-      {+params.get('page')&& <span className='text-sm font-semibold'>{`Show products ${range()} of ${totalCount}`}</span>
+      {+params.get('page')?<span className='text-sm font-semibold'>{`Show products ${range()} of ${totalCount}`}</span>:''
       }
         <div className='flex items-center'>
         {pagination?.map(el=>(

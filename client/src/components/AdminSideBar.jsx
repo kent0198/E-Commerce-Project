@@ -9,6 +9,7 @@ const {AiOutlineDown}=icons
 
 const activedStyle='px-4 py-2 flex item-center gap-2 text-gray-800 text-sm text-center bg-gray-400'
 const notactivedStyle='px-4 py-2 flex item-center gap-2 text-gray-800 text-sm text-center hover:bg-gray-600'
+
 const AdminSideBar = () => {
   const [actived, setactived] = useState([])
   const handleShowTabs=(tabID)=>{

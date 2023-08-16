@@ -3,7 +3,7 @@ import { Tilt } from 'react-tilt'
 import { motion } from "framer-motion";
 import {fadeIn, textVariant} from '../ultils/motion'
 import github from '../assets/github.png'
-import {styles} from '../hoc/styles'
+import {styles} from '../hocs/styles'
 import {projects} from "../ultils/contantsProject";
 
 const ProjectCard = ({

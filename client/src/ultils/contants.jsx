@@ -91,3 +91,46 @@ export const roles=[
         value:'User'
     },
 ]
+
+export const blockStatus=[
+    {
+        code:true, 
+        value:'Blocked'
+    },
+    {
+        code:false, 
+        value:'Active'
+    }
+]
+
+export const memberSideBar=[
+    {
+        id:1,
+        type:'single',
+        text:'Personal',
+        path:`/${path.MEMBER}/${path.PERSONAL}`,
+        icon:<AiOutlineDashboard size={20}/>
+    },
+    {
+        id:2,
+        type:'single',
+        text:'My Cart',
+        path:`/${path.MEMBER}/${path.MY_CART}`,
+        icon:<GrGroup color='white' size={20}/>
+    },
+    {
+        id:3,
+        type:'single',
+        text:'Wishlist',
+        path:`/${path.MEMBER}/${path.WISHLIST}`,
+        icon:<RiProductHuntLine size={20}/>,
+    },
+    {
+        id:4,
+        type:'single',
+        text:'Buy histories',
+        path:`/${path.MEMBER}/${path.HISTORY}`,
+        icon:<RiBillLine size={20}/>
+    },
+]
+

@@ -48,5 +48,15 @@ const role=[
     },
 ]
 
+const blockStatus=[
+    {
+        code:true, 
+        value:'Blocked'
+    },
+    {
+        code:false, 
+        value:'Active'
+    }
+]
 module.exports={users,role}
 

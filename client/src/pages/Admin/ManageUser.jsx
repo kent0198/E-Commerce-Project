@@ -1,14 +1,17 @@
 import React, { useState, useEffect, useCallback } from 'react'
-import { apiGetUsers } from '../../apis/user'
-import { roles } from '../../ultils/contants'
+import { apiGetUsers,apiUpdateUser,apiDeleteUser } from '../../apis/user'
+import { roles,blockStatus } from '../../ultils/contants'
 import moment from 'moment'
-import { InputField, Pagination, InputForm, Select } from '../../components'
+import { InputField, Pagination, InputForm, Select,Button } from '../../components'
 import useDebounce from '../../hooks/useDebounce'
 import { useSearchParams } from 'react-router-dom'
 import { useForm } from 'react-hook-form'
+import {toast} from 'react-toastify'
+import Swal from 'sweetalert2'
+import clsx from 'clsx'
 
 const ManageUser = () => {
-  const { handleSubmit, register, formState: { errors } } = useForm({
+  const { handleSubmit, register, formState: { errors } ,reset} = useForm({
     email: '',
     firstname: '',
     lastname: '',
@@ -19,6 +22,7 @@ const ManageUser = () => {
   const [users, setusers] = useState(null)
   const [counts, setcounts] = useState()
   const [edit, setedit] = useState(null)
+  const [update, setupdate] = useState(false)
   const fetchUsers = async (params) => {
     const response = await apiGetUsers({ ...params, limit: process.env.REACT_APP_PRODUCT_LIMIT })
     if (response.success) {
@@ -26,6 +30,10 @@ const ManageUser = () => {
       setcounts(response.counts)
     }
   }
+
+  const render=useCallback(()=>{
+      setupdate(!update)
+  },[update])
 
   const [params] = useSearchParams()
   const [queries, setQueries] = useState({
@@ -35,17 +43,45 @@ const ManageUser = () => {
   useEffect(() => {
     const queries = Object.fromEntries([...params])
     if (queriesDebounce) queries.q = queriesDebounce
-    fetchUsers(queries)
-  }, [queriesDebounce, params])
+    fetchUsers(queries) 
+  }, [queriesDebounce, params,update])
 
 
-  const handleUpdate=(data)=>{
-
+  const handleUpdate=async (data)=>{
+  
+    console.log(data)
+   const response=await apiUpdateUser(data, edit._id)
+    if(response.success){
+      setedit(null)
+      render()
+      toast.success(response.mes)
+    }else{
+      toast.error(response.mes)
+    }
   }
+
+  const hanldeDeleteUser=(uid)=>{
+      Swal.fire({
+        title:'Are you want delete user',
+        showCancelButton:true
+      }).then(async(result)=>{
+          if(result.isConfirmed){
+            const response = await apiDeleteUser(uid)
+            if(response.success){
+              render()
+              toast.success(response.mes)
+            }else{
+              toast.error(response.mes)
+            }
+          }
+      })
+     
+  }
+  
   return (
-    <div className='w-full'>
+    <div className={clsx('w-full', edit && 'pl-16')}>
       <h1 className='h-[75px] flex justify-between items-center text-3xl font-bold px-4 text-gray-700 border-b'>
-        <span>Manage User</span>
+        <span className='pl-40'>Manage User</span>
       </h1>
       <div className='w-full p-4'>
         <div className='flex justify-end py-4'>
@@ -53,11 +89,12 @@ const ManageUser = () => {
             nameKey={'q'}
             value={queries.q}
             setValue={setQueries}
-            style={'width:500px'}
+            search
             placeholder='Search name or mail user'
           />
         </div>
         <form onSubmit={handleSubmit(handleUpdate)}>
+         {edit && <Button buttonAdmin type='submit' >Update</Button>}
         <table className='table-auto mb-6 text-left w-full'>
           <thead className='font-bold bg-gray-700 text-[13px] border broder-gray-500  text-center text-white'>
             <tr>
@@ -74,7 +111,7 @@ const ManageUser = () => {
           </thead>
           <tbody>
             {users?.map((el, index) => (
-                <tr className='border broder-gray-500 '>
+                <tr className='border broder-gray-500 ' key={el._id}>
                   <td className='py-2 px-5'>{index + 1}</td>
                   <td className='py-2 px-5'>
                     {edit?._id === el._id ?
@@ -104,7 +141,7 @@ const ManageUser = () => {
                         fullWidth
                         id={'firstname'}
                         defaultValue={edit?.firstname}
-                        validate={{ required: true }}
+                        validate={{ required: 'Require fill' }}
                       />
                       : <span>{el.firstname}</span>}
                   </td>
@@ -121,7 +158,17 @@ const ManageUser = () => {
                       : <span>{el.lastname}</span>}
                   </td>
                   <td className='py-2 px-5'>
-                    {edit?._id === el._id ? <Select /> : <span>{roles.find(role => +role.code === +el.role)?.value}</span>}
+                    {edit?._id === el._id ?
+                       <Select 
+                       register={register}
+                       errors={errors}
+                       fullWidth
+                       defaultValue={+el.role}
+                       id={'role'}
+                       validate={{ required: true }}
+                       options={roles}
+                       />  
+                       : <span>{roles.find(role => +role.code === +el.role)?.value}</span>}
                   </td>
                   <td className='py-2 px-5'>
                     {edit?._id === el._id ?
@@ -136,12 +183,23 @@ const ManageUser = () => {
                       : <span>{el.phone}</span>}
                   </td>
                   <td className='py-2 px-5'>
-                    {edit?._id === el._id ? <Select /> : <span>{el.isBlocked ? 'Blocked' : 'Active'}</span>}
+                    {edit?._id === el._id ? 
+                    <Select 
+                    register={register}
+                    errors={errors}
+                    fullWidth
+                    defaultValue={edit?.isBlocked}
+                    id={'status'}
+                    validate={{ required: true }}
+                    options={blockStatus}
+                    /> 
+                    : <span>{el.isBlocked ? 'Blocked' : 'Active'}</span>}
                   </td>
                   <td className='py-2 px-5'>{moment(el.createdAt).format('DD/MM/YY')}</td>
                   <td>
-                    <span onClick={() => setedit(el)} className='px-2 text-orange-600 hover:underline cursor-auto border mr-2'>Edit</span>
-                    <span className='px-2 text-orange-600 hover:underline cursor-auto border'>Delete</span>
+                   {edit?._id === el._id ?  <span onClick={() => setedit(null)} className='px-2 text-orange-600 hover:underline cursor-auto border mr-2'>Back</span>
+                   : <span onClick={() => setedit(el)} className='px-2 text-orange-600 hover:underline cursor-auto border mr-2'>Edit</span>}
+                    <span onClick={()=>hanldeDeleteUser(el._id)}className='px-2 text-orange-600 hover:underline cursor-auto border'>Delete</span>
                   </td>
                 </tr>
             ))}

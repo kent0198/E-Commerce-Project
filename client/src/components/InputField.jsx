@@ -1,11 +1,11 @@
 import React,{useState} from 'react'
 import clsx from 'clsx'
 
-const InputField = ({value,setValue,nameKey, type, invalidFields, setInvalidFieds, style,fullWidth,placeholder}) => {
+const InputField = ({value,setValue,nameKey, type, invalidFields, setInvalidFieds, style,fullWidth,placeholder,search}) => {
 
 
   return (
-    <div className={clsx('w-full relative mb-2',fullWidth && 'w-full')}>
+    <div className={clsx('w-full relative mb-2',fullWidth && 'w-full',search && 'w-80')}>
         <input
             type={type||'text'}
             className={clsx('px-4 py-2 rounded-sm border w-full',style)}

@@ -8,10 +8,10 @@ import { Login, Public,
          ResetPassword } 
 from './pages/public'
 import { AdminLayout,CreateProducts,Dashboard,ManageOrder,ManageProducts,ManageUser } from './pages/Admin';
-import {Personal,MemberLayout } from './pages/member';
+import {Personal,MemberLayout,History,MyCart,WishList } from './pages/member';
 import { getCategories } from './store/app/asyncActions';
 import { useDispatch,useSelector } from 'react-redux'
-import { ToastContainer, toast } from 'react-toastify';
+import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import {ModalVote} from './components'
 
@@ -46,6 +46,9 @@ function App() {
         </Route>
         <Route path={path.MEMBER} element={<MemberLayout/>}>
              <Route path={path.PERSONAL} element={<Personal/>}/>
+             <Route path={path.HISTORY} element={<History/>}/>
+             <Route path={path.MY_CART} element={<MyCart/>}/>
+             <Route path={path.WISHLIST} element={<WishList/>}/>
         </Route>
         <Route path={path.FINAL_REGISTER} element={<FinalRegister />} />
         <Route path={path.LOGIN} element={<Login />} />

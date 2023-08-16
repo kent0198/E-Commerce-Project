@@ -1,6 +1,6 @@
 import React, { useRef, useState, useCallback, useEffect } from "react";
 import { motion } from "framer-motion";
-import { styles } from "../../hoc/styles";
+import { styles } from "../../hocs/styles";
 import { EarthCanvas } from "../../components/Canvas";
 import { SectionWraper } from '../../ultils/SectionWrapper'
 import { slideIn } from "../../ultils/motion";
@@ -19,7 +19,6 @@ import Loading from '../../components/Loading'
 const Login = () => {
   const navigate =useNavigate()
   const dispatch=useDispatch()
-  const location= useLocation()
  
   const [loading, setLoading]=useState(false)
   const [isRegister, setIsRegister] = useState(false)

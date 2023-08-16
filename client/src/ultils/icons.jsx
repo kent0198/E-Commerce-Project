@@ -1,5 +1,5 @@
 import {BsFillTelephoneFill,BsShieldCheck,BsTruck,BsReplyAll} from "react-icons/bs"
-import {MdEmail,MdKeyboardArrowRight} from 'react-icons/md'
+import {MdEmail,MdKeyboardArrowRight,MdOutlineDonutSmall} from 'react-icons/md'
 import {AiOutlineHeart} from 'react-icons/ai'
 import {PiHandbagDuotone} from 'react-icons/pi'
 import {GrGroup} from 'react-icons/gr'
@@ -33,6 +33,7 @@ const icons={
     AiOutlineDown,
     BsThreeDots,
     AiOutlineDashboard,
+    MdOutlineDonutSmall,
 }
 
 export default icons

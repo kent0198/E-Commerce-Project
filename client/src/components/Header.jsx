@@ -1,15 +1,27 @@
-import React, { Fragment } from 'react'
+import React, { Fragment, useEffect, useState } from 'react'
 import logo from '../assets/logo.png'
 import icons from '../ultils/icons'
 import { Link } from "react-router-dom";
 import path from "../ultils/path";
-import { useSelector } from 'react-redux'
+import { useSelector, useDispatch } from 'react-redux'
+import { clearMessage, logout } from '../store/user/userSlice'
 
 const { BsFillTelephoneFill, MdEmail, AiOutlineHeart, PiHandbagDuotone, FaUserCircle } = icons
 
 const Header = () => {
-
   const { current } = useSelector(state => state.user)
+  const [isShowOption, setisShowOption] = useState(false)
+  const dispatch=useDispatch()
+  useEffect(()=>{
+      const handleClickOutOption=(e)=>{
+        const profile=document.getElementById('profile')
+        if(!profile?.contains(e.target)) setisShowOption(false)
+      }
+      document.addEventListener('click', handleClickOutOption)
+      return ()=>{
+        document.removeEventListener('click', handleClickOutOption)
+      }
+  },[])
   return (
     <div className=' w-main h-[110px] py-[35px]  flex justify-between'>
       <Link to={`/${path.HOME}`}>
@@ -37,10 +49,24 @@ const Header = () => {
             <PiHandbagDuotone color='red' size={30} />
             <span>0 item(s)</span>
           </div>
-          <Link className='flex cursor-pointer items-center justify-center gap-5  px-6 border-r' to={+current?.role === +1945 ? `/${path.ADMIN}/${path.DASHBOARD}` : `/${path.MEMBER}/${path.PERSONAL}`}>
+          <div className='flex cursor-pointer items-center justify-center gap-5  px-6 border-r relative'
+            onClick={(e)=>{
+              setisShowOption(prev=>!prev)}
+            }
+            id='profile'
+          >
             <FaUserCircle size={24} />
             <span>Profile</span>
-          </Link>
+          {isShowOption &&   <div onClick={e=>e.stopPropagation()} className='absolute top-full left-0 flex-col flex bg-gray-100 min-w-[200px] border py-2'>
+                  <Link className='p-2 w-full hover:bg-sky-100' to={`/${path.MEMBER}/${path.PERSONAL}`}>
+                        Personal
+                  </Link>
+                    {+current.role===1945 && <Link className='p-2 w-full hover:bg-sky-100' to={`/${path.ADMIN}/${path.DASHBOARD}`}>
+                          Admin workSpace
+                        </Link>}
+                  <span onClick={()=>dispatch(logout())} className='p-2 w-full hover:bg-sky-100'>Logout</span>
+            </div>}
+          </div>
         </Fragment>}
       </div>
     </div>

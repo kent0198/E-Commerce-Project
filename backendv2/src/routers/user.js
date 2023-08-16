@@ -15,13 +15,14 @@ router.get('/logout',ctrls.logout)
 
 router.get('/', [verifyAccessToken,isAdmin],ctrls.getUsers)
 
-router.delete('/', [verifyAccessToken,isAdmin],ctrls.deleteUser)
+router.delete('/:uid', [verifyAccessToken,isAdmin],ctrls.deleteUser)
+
 router.put('/current',[verifyAccessToken],ctrls.updateUser)
-router.put('/',[verifyAccessToken,isAdmin],ctrls.updateUserByAdmin)
 router.put('/address',[verifyAccessToken],ctrls.updateUserAdrress)
 router.put('/cart',[verifyAccessToken],ctrls.updateCart)
 router.post('/forgotpassword',ctrls.forgotPassword)
 router.put('/resetpassword',ctrls.resetPassword)
+router.put('/:uid',[verifyAccessToken,isAdmin],ctrls.updateUserByAdmin)
 
 
 module.exports =router
