@@ -5,13 +5,17 @@ import { Link } from "react-router-dom";
 import path from "../ultils/path";
 import { useSelector, useDispatch } from 'react-redux'
 import { clearMessage, logout } from '../store/user/userSlice'
+import {showCart} from '../store/app/appSlice'
+import withBase from '../hocs/withBase'
 
 const { BsFillTelephoneFill, MdEmail, AiOutlineHeart, PiHandbagDuotone, FaUserCircle } = icons
 
-const Header = () => {
+
+const Header = ({dispatch}) => {
   const { current } = useSelector(state => state.user)
+  console.log(current)
+
   const [isShowOption, setisShowOption] = useState(false)
-  const dispatch=useDispatch()
   useEffect(()=>{
       const handleClickOutOption=(e)=>{
         const profile=document.getElementById('profile')
@@ -45,9 +49,11 @@ const Header = () => {
           <span>Online Support 24/7 </span>
         </div>
         {current && <Fragment>
-          <div className='flex cursor-pointer items-center justify-center gap-2  px-6 border-r'>
+          <div 
+            onClick={()=>dispatch(showCart({singal:true}))}
+            className='flex cursor-pointer items-center justify-center gap-2  px-6 border-r'>
             <PiHandbagDuotone color='red' size={30} />
-            <span>0 item(s)</span>
+            <span>{current?.cart?.length || 0} item(s)</span>
           </div>
           <div className='flex cursor-pointer items-center justify-center gap-5  px-6 border-r relative'
             onClick={(e)=>{
@@ -73,4 +79,4 @@ const Header = () => {
   )
 }
 
-export default Header
+export default withBase(Header)

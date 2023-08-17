@@ -8,11 +8,15 @@ export const appSlice=createSlice({
         isLoading :false,
         isShowModal:false,
         modalChildren:null,
+        isShowCart:false,
     },
     reducers:{
       ShowModal:(state, action)=>{
         state.isShowModal=action.payload.isShowModal
         state.modalChildren=action.payload.modalChildren
+      },
+      showCart:(state)=>{
+        state.isShowCart=state.isShowCart === false ? true : false
       }
     },
     //code logic xu li async action 
@@ -37,6 +41,6 @@ export const appSlice=createSlice({
     }
 })
 
-export const {ShowModal}=appSlice.actions
+export const {ShowModal,showCart}=appSlice.actions
 
 export default appSlice.reducer

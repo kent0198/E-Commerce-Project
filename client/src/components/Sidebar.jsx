@@ -12,7 +12,7 @@ const Sidebar = () => {
   
   return (
     <div  className='flex flex-col border-2 border-sky-200  rounded-lg'>
-        <div className='flex gap-4 justify-start text-center p-4 bg-red-500 items-center'>
+        <div className='flex gap-4 justify-start text-center p-4 bg-red-500 items-center text-white'>
             <MdOutlineDonutSmall color='white' size={20}/>
             <header className='font-semibold uppercase text-[16px] font-[600]'>ALL COLLECTIONS</header>
         </div>

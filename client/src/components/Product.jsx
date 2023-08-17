@@ -7,21 +7,54 @@ import icons from '../ultils/icons'
 import { Link } from 'react-router-dom'
 import path from '../ultils/path'
 import withBase from '../hocs/withBase'
+import { ShowModal } from '../store/app/appSlice'
+import DetailProduct from '../pages/public/DetailProduct'
+import { apiUpdateCart } from '../apis/user'
+import {toast} from 'react-toastify'
+import { getCurrent } from '../store/user/asyncActions'
+import { useSelector } from 'react-redux'
+import Swal from 'sweetalert2'
 
 const {
   AiFillEye,
   AiOutlineMenu,
   AiOutlineHeart,
+  AiOutlineShoppingCart,
 }=icons
-const Product = ({productData , isNew,navigate}) => {
+const Product = ({productData , isNew,navigate, dispatch}) => {
   const [isShowOption, setIsShowOption] = useState(false)
   //details products/pid/title/
 
-  const handleClickOptions=(e, flag)=>{
+  const {current}=useSelector(state=>state.user)
+  
+
+  const handleClickOptions=async(e, flag)=>{
     e.stopPropagation()
-    if(flag==='MENU') navigate(`/${productData?.category?.toLowerCase()}/${productData?._id}/${productData?.title}`)
-    if(flag==='QUICK_VIEW') console.log('QUICK_VIEW')
-    if(flag==='WISHLIST') console.log('WISHLIST')
+    if(flag==='CART') {
+      if(!current){
+        return Swal.fire({
+          title:'Almost...',
+          text:'Please login first!',
+          icon:'info',
+          cancelButtonText:'Not now!',
+          showCancelButton:true,
+          confirmButtonText:'Go login page '
+        }).then((rs)=>{
+          if(rs.isConfirmed) navigate(`/${path.LOGIN}`)
+        })
+      }
+      const response=await apiUpdateCart({pid:productData._id, color:productData.color || 'BLACK'})
+      if(response.success){
+        toast.success(response.mes)
+        dispatch(getCurrent())
+      }else{
+        toast.error(response.mes)
+      }
+    }
+    if(flag==='QUICK_VIEW') 
+    if(flag==='WISHLIST') {
+        dispatch(ShowModal({isShowModal:true, modalChildren: <DetailProduct isQuickView/>}))
+    }
   }
 
   return (
@@ -39,14 +72,14 @@ const Product = ({productData , isNew,navigate}) => {
       >
         {isShowOption &&
         <div className='absolute bottom-[20px] flex justify-center left-[40px] right-0 gap-1 animate-slide-top'>
-             <span onClick={(e)=>handleClickOptions(e,'QUICK_VIEW')}>
-                <SelectOption icon={<AiFillEye/>}/>
-            </span>
-            <span onClick={(e)=>handleClickOptions(e,'MENU')}>
-                <SelectOption icon={<AiOutlineMenu/>}/>
-            </span>
-            <span onClick={(e)=>handleClickOptions(e,'WISHLIST')}>
+           <span title='Quick view' onClick={(e)=>handleClickOptions(e,'QUICK_VIEW')}>
                 <SelectOption icon={<AiOutlineHeart/>}/>
+            </span>
+            <span title='Cart' onClick={(e)=>handleClickOptions(e,'CART')}>
+                <SelectOption icon={<AiOutlineShoppingCart/>}/>
+            </span>
+             <span title='Add wishlist' onClick={(e)=>handleClickOptions(e,'WISHLIST')}>
+                <SelectOption icon={<AiFillEye/>}/>
             </span>
         </div>
         }

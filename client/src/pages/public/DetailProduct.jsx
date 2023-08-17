@@ -20,7 +20,7 @@ var settings = {
 };
 
 
-const DetailProduct = () => {
+const DetailProduct = ({isQuickView}) => {
 
   const { pid, title, category } = useParams()
   const [product, setProduct] = useState(null)
@@ -76,8 +76,12 @@ const DetailProduct = () => {
   }
   return (
     <div className='flex justify-start text-left flex-col relative'>
-      <h3 className='font-bold mb-5'>{title}</h3>
-      <Breadcumb title={title} category={category} />
+        {
+          !isQuickView &&   <div>
+                            <h3 className='font-bold mb-5'>{title}</h3>
+                            <Breadcumb title={title} category={category} />
+                            </div>
+        }
       <div className='w-main m-auto mt-8 flex'>
         <div className='flex-4 flex flex-col gap-4 w-2/5 '>
           <div className='h-[470px] w-[470px]'>
@@ -121,13 +125,13 @@ const DetailProduct = () => {
               </div>
           </div>
         </div>
-        <div className='border border-grenn-300 flex-2 w-1/5 gap-10'>
+       {!isQuickView &&  <div className='border border-grenn-300 flex-2 w-1/5 gap-10'>
           {productExtraInfomation.map(el=>(
             <ProductExtraInfo key={el.id} data={el}/>
           ))}
-        </div>
+        </div>}
       </div>
-      <div className='w-main m-auto mt-8'>
+     {!isQuickView &&  <div className='w-main m-auto mt-8'>
             <ProductDescription 
               totalRatings={product?.totalRatings} 
               ratings={product?.ratings}
@@ -135,12 +139,15 @@ const DetailProduct = () => {
               pid={product?._id}
               rerender={rerender}
               />
-      </div>
-      <div className='w-main mt-10'>
-            <h3 className='text-[20px] font-semibold py-[15px] border-b-2 border-main'>OTHER CUSTOMER ALSO LIKED</h3>
-            <CustomSlider products={relatedProduct}/>
-      </div>
-      <div className='h-[200px] w-full'></div>
+      </div>}
+     {!isQuickView && <>
+            <div className='w-main mt-10'>
+                <h3 className='text-[20px] font-semibold py-[15px] border-b-2 border-main'>OTHER CUSTOMER ALSO LIKED</h3>
+                <CustomSlider products={relatedProduct}/>
+            </div>
+            <div className='h-[200px] w-full'></div>
+     </>
+      }
     </div>
   )
 }

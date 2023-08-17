@@ -18,7 +18,7 @@ const Public = () => {
   return (
     <>
     {  isLoading ? <Loading /> :
-    <div className='w-full flex flex-col justify-center items-center '>
+    <div className='w-full flex flex-col  justify-center items-center '>
           <TopHeader/>
           <Header/>
           <Navigation/>

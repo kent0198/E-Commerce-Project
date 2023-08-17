@@ -22,6 +22,9 @@ router.put('/address',[verifyAccessToken],ctrls.updateUserAdrress)
 router.put('/cart',[verifyAccessToken],ctrls.updateCart)
 router.post('/forgotpassword',ctrls.forgotPassword)
 router.put('/resetpassword',ctrls.resetPassword)
+
+router.delete('/remove-cart/:pid',[verifyAccessToken],ctrls.removeProductInCart)
+
 router.put('/:uid',[verifyAccessToken,isAdmin],ctrls.updateUserByAdmin)
 
 
