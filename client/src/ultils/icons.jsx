@@ -6,6 +6,7 @@ import {GrGroup} from 'react-icons/gr'
 import {FaUserCircle,FaTty} from 'react-icons/fa'
 import {BiGift} from 'react-icons/bi'
 import {BsThreeDots} from 'react-icons/bs'
+import {ImBin} from 'react-icons/im'
 import {RiProductHuntLine,RiBillLine} from 'react-icons/ri'
 import {AiFillStar,AiOutlineStar,AiFillEye,AiOutlineMenu,AiOutlineDashboard,AiOutlineLogout,AiOutlineDown,AiOutlineCloseCircle} from 'react-icons/ai'
 
@@ -36,6 +37,7 @@ const icons={
     AiOutlineDashboard,
     MdOutlineDonutSmall,
     AiOutlineCloseCircle,
+    ImBin,
 }
 
 export default icons

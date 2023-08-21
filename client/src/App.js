@@ -5,7 +5,7 @@ import { Login, Public,
          Home, DetailProduct, 
          FQA, Blog, Service, 
          Products, FinalRegister, 
-         ResetPassword } 
+         ResetPassword,DetailCart } 
 from './pages/public'
 import { AdminLayout,CreateProducts,Dashboard,ManageOrder,ManageProducts,ManageUser } from './pages/Admin';
 import {Personal,MemberLayout,History,MyCart,WishList } from './pages/member';
@@ -14,6 +14,7 @@ import { useDispatch,useSelector } from 'react-redux'
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import {Cart, ModalVote} from './components'
+import { showCart } from './store/app/appSlice';
 
 
 function App() {
@@ -26,7 +27,7 @@ function App() {
 
   return (
     <div className="min-h-screen font-main  relative">
-        {isShowCart &&   <div className='absolute inset-0 bg-overplay z-50 flex justify-end'>
+        {isShowCart &&   <div onClick={()=>dispatch(showCart())} className='absolute inset-0 bg-overplay z-50 flex justify-end'>
           <Cart/>
         </div>}
         {isShowModal && <ModalVote>{modalChildren}</ModalVote>}
@@ -39,6 +40,7 @@ function App() {
           <Route path={path.SERVICES} element={<Service />} />
           <Route path={path.PRODUCTS} element={<Products />} />
           <Route path={path.RESET_PASSWORD} element={<ResetPassword />} />
+          <Route path={path.DETAIL_CART} element={<DetailCart />} />
         </Route>
         <Route path={path.ADMIN} element={<AdminLayout/>}>
             <Route path={path.DASHBOARD} element={<Dashboard/>}/>
