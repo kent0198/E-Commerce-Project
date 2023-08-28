@@ -5,10 +5,10 @@ const InputField = ({value,setValue,nameKey, type, invalidFields, setInvalidFied
 
 
   return (
-    <div className={clsx('w-full relative mb-2',fullWidth && 'w-full',search && 'w-80')}>
+    <div className={clsx('w-full relative mb-2 ',fullWidth && 'w-full',search && 'w-80')}>
         <input
             type={type||'text'}
-            className={clsx('px-4 py-2 rounded-sm border w-full',style)}
+            className={clsx('px-4 py-2 rounded-sm border w-full focus:invalid:border-pink-300',style)}
             placeholder={placeholder || nameKey?.slice(0,1).toUpperCase()+nameKey?.slice(1)}
             value={value}
             onChange={e=>setValue(prev=>({...prev,[nameKey]:e.target.value}))}

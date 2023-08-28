@@ -17,7 +17,6 @@ const {AiOutlineCloseCircle,ImBin}=icons
 const Cart = ({dispatch,navigate}) => {
   const {current}=useSelector(state=>state.user)
   
-  console.log(current)
 
   const removeCart=async(pid)=>{
     const response=await apiRemoveCart(pid)
@@ -28,9 +27,8 @@ const Cart = ({dispatch,navigate}) => {
     }
   }
 
-
   return (
-    <div onClick={(e)=>e.stopPropagation()} className='w-[400px] grid h-screen overflow-y-auto bg-gray-900 grid-rows-10 text-white p-6'>
+    <div onClick={(e)=>e.stopPropagation()} className='w-[400px] grid h-screen overflow-y-auto bg-gray-900 grid-rows-10 text-white p-6 overflow-hidden'>
         <header className='row-span-1 h-full border-b border-gray-300 font-bold text-2xl flex justify-between items-center'>
             <span>Your Cart</span>
             <span onClick={()=>dispatch(showCart())}>

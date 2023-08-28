@@ -7,13 +7,16 @@ import { slideIn } from "../../ultils/motion";
 import { InputField, Button } from '../../components'
 import { apiForgotPassword, apiLogin, apiResgister } from "../../apis/user";
 import Swal from 'sweetalert2'
-import { useNavigate , useLocation,Link} from "react-router-dom";
+import { useNavigate ,Link} from "react-router-dom";
 import path from '../../ultils/path'
 import { login} from '../../store/user/userSlice'
 import { useDispatch } from "react-redux";
 import {toast} from 'react-toastify'
 import  {validate}  from '../../ultils/helper'
 import Loading from '../../components/Loading'
+import {ShowModal} from '../../store/app/appSlice'
+import {VoteOption,ForgotPasswordModel} from '../../components'
+
 
 
 const Login = () => {
@@ -22,7 +25,6 @@ const Login = () => {
  
   const [loading, setLoading]=useState(false)
   const [isRegister, setIsRegister] = useState(false)
-  const [isForgotPassword, setisForgotPassword] = useState(false)
   const [invalidFields, setInvalidFields]=useState([])
   const resetPayload = () => {
     setPayload({
@@ -40,16 +42,7 @@ const Login = () => {
     lastname: '',
     phone: '',
   })
-  const [email, setemail] = useState('')
-  const handleForgotPassword =async()=>{
-      const response=await apiForgotPassword({email})
-      if(response.success){
-         toast.success(response.mes)
-      }else{
-          toast.info(response.mes,{theme:'colored'})
-      }
-  }
-
+    
   useEffect(()=>{
     resetPayload()
   },[isRegister])
@@ -87,12 +80,19 @@ const Login = () => {
       }
     }
   }, [payload, isRegister])
+
+  const handleForgotPassWord=()=>{
+    dispatch(ShowModal({
+      isShowModal:true, 
+      modalChildren:<ForgotPasswordModel/>
+  }))
+  }
+
   return (
     <div
       className={` flex xl:flex-row flex-col-reverse gap-10 overflow-hidden bg-blue-300 h-[706px] relative`}
     >
-     {isForgotPassword &&  <div className="absolute top-0 left-0 bottom-0 right-0 bg-overplay z-50 flex justify-center py-8 z-50">
-        <div className="flex  flex-col gap-4 ">
+       {/*  <div className="flex  flex-col gap-4 ">
           <label htmlFor="email">Enter your email</label>
           <input 
             type="text" 
@@ -112,8 +112,7 @@ const Login = () => {
             name='Back'
             handleOnClick={()=>setisForgotPassword(false)}
           />
-        </div>
-      </div>}
+        </div> */}
       <motion.div
         variants={slideIn("left", "tween", 0.2, 1)}
         className='flex-[0.75] bg-black-100 px-8 rounded-2xl justify-center items-center text-center'
@@ -174,7 +173,7 @@ const Login = () => {
 
           <div className="flex items-center justify-between my-2">
             {!isRegister &&
-              <span  onClick={()=>setisForgotPassword(true)} className="text-gray-700 hover:underline">Forgot your password ?</span>
+              <span  onClick={handleForgotPassWord}  className="text-gray-700 hover:underline">Forgot your password ?</span>
             }
             {!isRegister &&
               <span onClick={() => setIsRegister(true)} className="text-gray-700 hover:underline">Create account ?</span>

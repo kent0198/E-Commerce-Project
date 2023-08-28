@@ -26,6 +26,9 @@ const Header = ({dispatch}) => {
         document.removeEventListener('click', handleClickOutOption)
       }
   },[])
+  const handleDispatch=()=>{
+   dispatch(showCart({singal:true}))
+  }
   return (
     <div className=' w-main h-[110px] py-[35px]  flex justify-between'>
       <Link to={`/${path.HOME}`}>
@@ -50,7 +53,7 @@ const Header = ({dispatch}) => {
         </div>
         {current && <Fragment>
           <div 
-            onClick={()=>dispatch(showCart({singal:true}))}
+            onClick={handleDispatch}
             className='flex cursor-pointer items-center justify-center gap-2  px-6 border-r'>
             <PiHandbagDuotone color='red' size={30} />
             <span>{current?.cart?.length || 0} item(s)</span>

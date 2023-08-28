@@ -154,7 +154,7 @@ const forgotPassword = asyncHandler(async (req, res) => {
     const { email } = req.body
     if (!email) throw new Error('Missing email')
     const user = await User.findOne({ email })
-    if (!user) throw new Error('User not found')
+    if (!user) throw new Error('Email not found')
     const resetToken = user.createPasswordChangedToken()
     await user.save()
 
