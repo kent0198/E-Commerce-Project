@@ -37,5 +37,6 @@ export {default as MemberSideBar} from './MemberSideBar'
 export {default as QuickView} from './QuickView'
 export {default as Cart} from './Cart'
 export {default as ForgotPasswordModel} from './ForgotPasswordModel'
+export {default as QuickViewModel} from './QuickViewModel'
 
 

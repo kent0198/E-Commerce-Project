@@ -301,20 +301,26 @@ const updateUserAdrress = asyncHandler(async (req, res) => {
 
 const updateCart = asyncHandler(async (req, res) => {
     const { _id } = req.user
-    const { pid, quantity=1, color } = req.body
+    const { pid, quantity, color } = req.body
+    const finalQuantity = quantity !== null ? quantity : 1;
     if (!pid || !color) throw new Error('Missing input')
     const user = await User.findById(_id).select('cart')
     const alreadyProduct = user?.cart?.find(el => el.product.toString() == pid)
     if (alreadyProduct) {
             const response = await User.updateOne(
-                { cart: { $elemMatch: alreadyProduct } }, { $set: { "cart.$.quantity": quantity,"cart.$.color": color } }, { new: true }
+                { cart: { $elemMatch: alreadyProduct } }, 
+                { $set: { 
+                    "cart.$.quantity": finalQuantity,
+                    "cart.$.color": color 
+                } }, { new: true }
             )
             return res.status(200).json({
                 success: response ? true : false,
                 mes: response ? 'Updated your cart' : 'Cannot update cart'
             })
     } else {
-        const response = await User.findByIdAndUpdate(_id, { $push: { cart: { product: pid, quantity, color } } }, { new: true })
+        const response = await User.findByIdAndUpdate(_id, 
+            { $push: { cart: { product: pid, quantity:finalQuantity, color } } }, { new: true })
         return res.status(200).json({
             success: response ? true : false,
             mes: response ? 'Updated your cart' : 'Cannot update cart'

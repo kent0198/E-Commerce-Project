@@ -23,6 +23,16 @@ export const userSlice=createSlice({
         },
         clearMessage:(state)=>{
             state.mes='' 
+        },
+        updateCartItemQuantity: (state, action) => {
+
+            if (state.current.cart.length === 0) return;
+            const { itemId, quantity } = action.payload;
+            const itemIdx = state.current.cart.findIndex(item => item._id === itemId);
+            if (itemIdx !== -1) {
+                state.current.cart[itemIdx].quantity = quantity;
+            }
+            
         }
     },
     //code logic xu li async action 
@@ -47,6 +57,6 @@ export const userSlice=createSlice({
     }
 })
 
-export const {login,logout,clearMessage}=userSlice.actions
+export const {login,logout,clearMessage,updateCartItemQuantity}=userSlice.actions
 
 export default userSlice.reducer

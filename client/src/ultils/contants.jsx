@@ -11,22 +11,22 @@ export const navigation=[
     },
     {
         id:2,
-        value:'Products',
+        value:'PRODUCTS',
         path:`/${path.PRODUCTS}`
     },
     {
         id:3,
-        value:'Blog',
+        value:'BLOGS',
         path:`/${path.BLOGS}`
     },
     {
         id:4,
-        value:'Our Services',
+        value:'OUR SERVICES',
         path:`/${path.SERVICES}`
     },
      {
         id:5,
-        value:'FAQs',
+        value:'FAQS',
         path:`/${path.FAQs}`
     }
 ]

@@ -37,6 +37,7 @@ const getProducts = asyncHandler(async (req, res) => {
     const queries={...req.query}
 
     //Tach cac truong dac biet ra khoi query 
+    
     const excludeFields=['limit','sort','page','fields']
     excludeFields.forEach(el=>delete queries[el])
 
@@ -94,6 +95,9 @@ const getProducts = asyncHandler(async (req, res) => {
         }
     });
 })
+
+
+
 const updateProduct = asyncHandler(async (req, res) => {
     const { pid } = req.params
     if (req.body && req.body.title) req.body.slug = slugify(req.body.title)

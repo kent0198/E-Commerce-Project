@@ -1,21 +1,19 @@
-import React, { useRef, useState, useCallback, useEffect } from "react";
+import React, { useState, useCallback, useEffect } from "react";
 import { motion } from "framer-motion";
 import { styles } from "../../hocs/styles";
 import { EarthCanvas } from "../../components/Canvas";
-import { SectionWraper } from '../../ultils/SectionWrapper'
 import { slideIn } from "../../ultils/motion";
 import { InputField, Button } from '../../components'
-import { apiForgotPassword, apiLogin, apiResgister } from "../../apis/user";
+import {apiLogin, apiResgister } from "../../apis/user";
 import Swal from 'sweetalert2'
 import { useNavigate ,Link} from "react-router-dom";
 import path from '../../ultils/path'
 import { login} from '../../store/user/userSlice'
 import { useDispatch } from "react-redux";
-import {toast} from 'react-toastify'
 import  {validate}  from '../../ultils/helper'
 import Loading from '../../components/Loading'
 import {ShowModal} from '../../store/app/appSlice'
-import {VoteOption,ForgotPasswordModel} from '../../components'
+import {ForgotPasswordModel} from '../../components'
 
 
 
@@ -92,27 +90,6 @@ const Login = () => {
     <div
       className={` flex xl:flex-row flex-col-reverse gap-10 overflow-hidden bg-blue-300 h-[706px] relative`}
     >
-       {/*  <div className="flex  flex-col gap-4 ">
-          <label htmlFor="email">Enter your email</label>
-          <input 
-            type="text" 
-            id="email" 
-            className="w-[800px] pb-2 border-b outline-none placeholder:text-sm " 
-            placeholder="Exp: email@gmail.com"
-            value={email}
-            onChange={e=>setemail(e.target.value)}
-            />
-        </div>
-        <div className="flex items-center justify-end gap-10">
-          <Button
-            name='Submit'
-            handleOnClick={handleForgotPassword}
-          />
-          <Button 
-            name='Back'
-            handleOnClick={()=>setisForgotPassword(false)}
-          />
-        </div> */}
       <motion.div
         variants={slideIn("left", "tween", 0.2, 1)}
         className='flex-[0.75] bg-black-100 px-8 rounded-2xl justify-center items-center text-center'

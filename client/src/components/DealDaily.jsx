@@ -20,7 +20,6 @@ const DealDaily = () => {
     
     const fetchDealDayly=async () => {
         const response = await apiGetProducts({limit:1,page:Math.round(Math.random()*10),totalRatings:0})
-        console.log(response)
         if (response?.success) {
         setDealDaily(response.products[0])
        
@@ -37,16 +36,11 @@ const DealDaily = () => {
             setSecond(59)
         }
     }
- /*    useEffect(()=>{
-        fetchDealDayly()
-    },[])
-      */
      useEffect(()=>{
             clearInterval(idInterval)
             fetchDealDayly()
            
      },[expireTime])
-
     useEffect(()=>{
            idInterval= setInterval(()=>{
             if(second>0) setSecond(prev=>prev-1)

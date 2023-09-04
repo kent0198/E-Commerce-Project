@@ -14,17 +14,15 @@ import {toast} from 'react-toastify'
 import { getCurrent } from '../store/user/asyncActions'
 import { useSelector } from 'react-redux'
 import Swal from 'sweetalert2'
+import {QuickViewModel}  from './'
 
 const {
   AiFillEye,
-  AiOutlineMenu,
   AiOutlineHeart,
   AiOutlineShoppingCart,
 }=icons
 const Product = ({productData , isNew,navigate, dispatch}) => {
   const [isShowOption, setIsShowOption] = useState(false)
-  //details products/pid/title/
-
   const {current}=useSelector(state=>state.user)
   
 
@@ -43,7 +41,9 @@ const Product = ({productData , isNew,navigate, dispatch}) => {
           if(rs.isConfirmed) navigate(`/${path.LOGIN}`)
         })
       }
-      const response=await apiUpdateCart({pid:productData._id, color:productData.color || 'BLACK'})
+      const response=await apiUpdateCart({
+        pid:productData._id, 
+        color:productData.color || 'BLACK'})
       if(response.success){
         toast.success(response.mes)
         dispatch(getCurrent())
@@ -51,11 +51,10 @@ const Product = ({productData , isNew,navigate, dispatch}) => {
         toast.error(response.mes)
       }
     }
-    if(flag==='QUICK_VIEW') 
     if(flag==='WISHLIST') {
         dispatch(ShowModal({isShowModal:true, modalChildren: <DetailProduct isQuickView/>}))
     }
-  }
+  } 
 
   return (
     <div className='w-full text-base '>
@@ -72,13 +71,13 @@ const Product = ({productData , isNew,navigate, dispatch}) => {
       >
         {isShowOption &&
         <div className='absolute bottom-[20px] flex justify-center left-[40px] right-0 gap-1 animate-slide-top'>
-           <span title='Quick view' onClick={(e)=>handleClickOptions(e,'QUICK_VIEW')}>
+           <span title='Add wishlist' onClick={(e)=>handleClickOptions(e,'WISHLIST')}>
                 <SelectOption icon={<AiOutlineHeart/>}/>
             </span>
             <span title='Cart' onClick={(e)=>handleClickOptions(e,'CART')}>
                 <SelectOption icon={<AiOutlineShoppingCart/>}/>
             </span>
-             <span title='Add wishlist' onClick={(e)=>handleClickOptions(e,'WISHLIST')}>
+             <span title='Quick view'  onClick={()=>navigate(`/${productData?.category?.toLowerCase()}/${productData?._id}/${productData?.title}`)}>
                 <SelectOption icon={<AiFillEye/>}/>
             </span>
         </div>

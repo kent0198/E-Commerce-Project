@@ -14,7 +14,6 @@ instance.interceptors.request.use(function (config){
     {
         localStorageData=JSON.parse(localStorageData)
         const accessToken=JSON.parse(localStorageData?.token)
-        console.log(accessToken)
         config.headers={authorization:`Bearer ${accessToken}`}
         return config    
     }else return config;

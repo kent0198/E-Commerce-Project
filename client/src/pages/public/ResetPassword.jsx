@@ -70,40 +70,8 @@ const ResetPassword = () => {
             children='Submit'
             handleOnClick={handleResetPassword}
           />
-
         </div>
       </div>
-      {/*   <div className='flex justify-center text-center flex-col gap-5'>
-       <div className="flex gap-10 ">
-        <label htmlFor="email">Email</label>
-        <input 
-        type="text" 
-        id="email" 
-        className="w-[800px] pb-2 border-b outline-none placeholder:text-sm " 
-        placeholder="Type here"
-        value={password}
-        onChange={e=>setPassword(e.target.value)}
-        />
-      </div>
-    <div className="flex gap-10 ">
-      <label htmlFor="email">New password</label>
-      <input 
-        type="text" 
-        id="email" 
-        className="w-[800px] pb-2 border-b outline-none placeholder:text-sm " 
-        placeholder="Type here"
-        value={password}
-        onChange={e=>setPassword(e.target.value)}
-        />
-    </div>
-    </div> */}
-      {/* <div>
-      <Button
-        children='Submit'
-        handleOnClick={handleResetPassword}
-      />
-   
-    </div> */}
     </div>
   )
 }
