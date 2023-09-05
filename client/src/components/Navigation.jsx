@@ -8,16 +8,6 @@ const Navigation = () => {
 
   const [activeTab, setActiveTab] = useState(navigation[0].id)
   return (
-   /*  <div className='w-main h-[48px] py-2 border-y mb-6 text-sm flex items-center'>
-          {navigation.map(el=>(
-            <NavLink to={el.path} 
-                     key={el.id} 
-                     className={({isActive})=>isActive?'pr-12 hover:text-main text-main':'pr-12 hover:text-main'}
-            >
-              {el.value}
-            </NavLink>
-          ))}
-    </div>   */
     <div>
       <div className='w-main py-2 border-y mb-6 text-sm flex items-center '>
             {navigation.map((el)=>(
@@ -34,10 +24,10 @@ const Navigation = () => {
                       layoutId='active-pill'
                       className='absolute inset-0 bg-sky-400'
                       style={{borderRadius:9999}}
-                      transition={{duration:0.3}}
+                      transition={{duration:0.7}}
                     />
                   )}
-                  <NavLink to={el.path} className='relative z-10'>{el.value}</NavLink>
+                  <NavLink  to={el.path}  className='relative z-50'>{el.value}</NavLink>
               </button>
             ))}
       </div>

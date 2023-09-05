@@ -47,7 +47,7 @@ const DetailCart = ({location}) => {
       <span className='col-span-3 w-full text-center'>Price</span>
     </div>
     {current?.cart?.map(el=>(
-      <div key={el._id} className='w-main mx-auto font-bold my-8 border py-3 grid grid-cols-10 shadow-[rgba(0,0,0,0.35)_0px_5px_15px] hover:shadow-[rgba(0,0,0,0.6)_0px_5px_15px] '>
+      <div key={el._id} className='w-main mx-auto font-bold my-8 border py-3 grid grid-cols-10'>
         <span className='col-span-5 w-full text-center'>
           <div className='flex gap-4 pl-5'>
               <img src={el?.product?.thumb} alt='thumb' className='w-28 h-28 object-cover'/>
@@ -76,11 +76,8 @@ const DetailCart = ({location}) => {
         <span>Subtitle : </span>
         <span className='text-red-500'>{formatMoney(current?.cart?.reduce((sum, el)=>(+el?.product?.price)*(+el?.quantity)+sum,0))}</span>
     </div>
-    <div className='flex justify-end text-center '>
+    <div className='flex justify-end text-center pb-5 '>
         <Button children='Check out' handleOnClick={handleCheckOut}/>
-    </div>
-    <div className='h-5'>
-
     </div>
     </div>
   )

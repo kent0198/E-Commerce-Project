@@ -302,7 +302,7 @@ const updateUserAdrress = asyncHandler(async (req, res) => {
 const updateCart = asyncHandler(async (req, res) => {
     const { _id } = req.user
     const { pid, quantity, color } = req.body
-    const finalQuantity = quantity !== null ? quantity : 1;
+    const finalQuantity = quantity !== undefined ? quantity : 1;
     if (!pid || !color) throw new Error('Missing input')
     const user = await User.findById(_id).select('cart')
     const alreadyProduct = user?.cart?.find(el => el.product.toString() == pid)

@@ -1,18 +1,26 @@
 import React, { useState, useEffect,useCallback } from 'react'
-import { useParams, useSearchParams ,useNavigate, createSearchParams} from 'react-router-dom'
+import { useParams, useSearchParams ,useNavigate, createSearchParams } from 'react-router-dom'
 import { Breadcumb, Product ,SearchItem,InputSelect,Pagination} from '../../components'
 import { apiGetProducts } from '../../apis/product'
 import Masonry from 'react-masonry-css'
 import {sorts} from '../../ultils/contantsProject'
+import withBase from '../../hocs/withBase'
 
-const Products = () => {
 
+
+const Products = ({location}) => {
+
+ 
   const navigate=useNavigate()
   const [products, setProducts] = useState(null)
   const [activeClick, setactiveClick] = useState(null)
   const [sort, setsort] = useState('')
   const { category } = useParams()  
   const [params]=useSearchParams()
+
+  location=location.pathname
+
+  const cleanPath = location.replace("/:", '');
 
   const fecthProductsByCategory = async (queries) => {
     const response = await apiGetProducts({...queries,category})
@@ -120,4 +128,4 @@ const Products = () => {
   )
 }
 
-export default Products
+export default withBase(Products)

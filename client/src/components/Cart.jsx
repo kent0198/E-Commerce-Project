@@ -1,4 +1,4 @@
-import React,{Fragment, memo} from 'react'
+import React,{Fragment, memo,useEffect} from 'react'
 import icons from '../ultils/icons'
 import withBase from '../hocs/withBase'
 import { ShowModal, showCart } from '../store/app/appSlice'
@@ -27,8 +27,18 @@ const Cart = ({dispatch,navigate}) => {
     }
   }
 
+  useEffect(()=>{
+    const handleClickOutOption=(e)=>{
+      const cart=document.getElementById('cart')
+    }
+    document.body.style.overflow = 'hidden';
+    return ()=>{
+      document.body.style.overflow = 'auto';
+    }
+},[])
+
   return (
-    <div onClick={(e)=>e.stopPropagation()} className='w-[400px] grid h-screen overflow-y-auto bg-gray-900 grid-rows-10 text-white p-6 overflow-hidden'>
+    <div onClick={(e)=>e.stopPropagation()} className='w-[400px] grid h-screen overflow-y-auto bg-gray-900 grid-rows-10 text-white p-6 overflow-hidden' id='cart'>
         <header className='row-span-1 h-full border-b border-gray-300 font-bold text-2xl flex justify-between items-center'>
             <span>Your Cart</span>
             <span onClick={()=>dispatch(showCart())}>

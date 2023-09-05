@@ -27,7 +27,5 @@ const path={
     MY_CART:'my-cart',
     HISTORY:'buy--history',
     WISHLIST:'wishlist'
-    
-
 }
 export default path

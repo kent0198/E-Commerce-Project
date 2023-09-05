@@ -8,13 +8,11 @@ import { clearMessage, logout } from '../store/user/userSlice'
 import {showCart} from '../store/app/appSlice'
 import withBase from '../hocs/withBase'
 
-const { BsFillTelephoneFill, MdEmail, AiOutlineHeart, PiHandbagDuotone, FaUserCircle } = icons
 
 
+const { BsFillTelephoneFill, MdEmail, PiHandbagDuotone, FaUserCircle ,TfiViewListAlt} = icons
 const Header = ({dispatch}) => {
   const { current } = useSelector(state => state.user)
-  console.log(current)
-
   const [isShowOption, setisShowOption] = useState(false)
   useEffect(()=>{
       const handleClickOutOption=(e)=>{
@@ -46,7 +44,7 @@ const Header = ({dispatch}) => {
 
         <div className='flex flex-col items-center px-6 border-r'>
           <span className='flex gap-4 items-center'>
-            <BsFillTelephoneFill color='red' />
+            <MdEmail color='red' />
             <span className='font-semibold' >SUPPORT@TADATHEMES.COM </span>
           </span>
           <span>Online Support 24/7 </span>
@@ -58,14 +56,14 @@ const Header = ({dispatch}) => {
             <PiHandbagDuotone color='red' size={30} />
             <span>{current?.cart?.length || 0} item(s)</span>
           </div>
-          <div className='flex cursor-pointer items-center justify-center gap-5  px-6 border-r relative'
+          <div className='flex cursor-pointer items-center justify-center gap-2  px-1 relative bg-gray-200 border border-gray-300 rounded-lg transition-shadow duration-200 ease-in-out hover:shadow-md'
             onClick={(e)=>{
               setisShowOption(prev=>!prev)}
             }
             id='profile'
           >
-            <FaUserCircle size={24} />
-            <span>Profile</span>
+            <FaUserCircle size={24} style={{color:'gray'}}/>
+            <TfiViewListAlt size={20} style={{color:'gray'}}/>
           {isShowOption &&   <div onClick={e=>e.stopPropagation()} className='absolute top-full left-0 flex-col flex bg-gray-100 min-w-[200px] border py-2'>
                   <Link className='p-2 w-full hover:bg-sky-100' to={`/${path.MEMBER}/${path.PERSONAL}`}>
                         Personal
