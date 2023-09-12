@@ -14,6 +14,7 @@ const { BsFillTelephoneFill, MdEmail, PiHandbagDuotone, FaUserCircle ,TfiViewLis
 const Header = ({dispatch}) => {
   const { current } = useSelector(state => state.user)
   const [isShowOption, setisShowOption] = useState(false)
+
   useEffect(()=>{
       const handleClickOutOption=(e)=>{
         const profile=document.getElementById('profile')
@@ -24,6 +25,7 @@ const Header = ({dispatch}) => {
         document.removeEventListener('click', handleClickOutOption)
       }
   },[])
+  
   const handleDispatch=()=>{
    dispatch(showCart({singal:true}))
   }

@@ -4,7 +4,6 @@ import lable from '../assets/lable.png'
 import {renderStarFromNumber}  from "../ultils/helper"
 import {SelectOption} from './index'
 import icons from '../ultils/icons'
-import { Link } from 'react-router-dom'
 import path from '../ultils/path'
 import withBase from '../hocs/withBase'
 import { ShowModal } from '../store/app/appSlice'
@@ -14,7 +13,6 @@ import {toast} from 'react-toastify'
 import { getCurrent } from '../store/user/asyncActions'
 import { useSelector } from 'react-redux'
 import Swal from 'sweetalert2'
-import {QuickViewModel}  from './'
 
 const {
   AiFillEye,
@@ -87,7 +85,7 @@ const Product = ({productData , isNew,navigate, dispatch}) => {
            className='w-[234px] h-[234px] object-cover ml-8 border rounded-xl'
       />
       <img src={lable} alt="" className='absolute top-[20px] left-[200px] w-[100px] h-[40px] object-cover'/>
-     {isNew ?  <span className='font-bold top-[18px] left-[232px] text-white absolute'>New</span> : 
+      {isNew ?  <span className='font-bold top-[18px] left-[232px] text-white absolute'>New</span> : 
       <span className='font-bold top-[18px] left-[220px] text-white absolute'>Trending</span> }
       </div>
       <div className='flex flex-col gap-2 text-center '>

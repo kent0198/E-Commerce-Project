@@ -23,11 +23,6 @@ export const navigation=[
         id:4,
         value:'OUR SERVICES',
         path:`/${path.SERVICES}`
-    },
-     {
-        id:5,
-        value:'FAQS',
-        path:`/${path.FAQs}`
     }
 ]
 
@@ -134,3 +129,42 @@ export const memberSideBar=[
     },
 ]
 
+
+export const services=[
+    {
+        id:1,
+        img:'https://cdn.shopify.com/s/files/1/1636/8779/files/settings.png?v=1491835711',
+        title:'Customizable Page',
+        desc:'Fusce arcu molestie eget libero consectetur congue consectetur in bibendum litora'
+    },
+    {
+        id:2,
+        img:'https://cdn.shopify.com/s/files/1/1636/8779/files/picture.png?v=1491835656',
+        title:'Revolution Slider',
+        desc:'Fusce arcu molestie eget libero consectetur congue consectetur in bibendum litora'
+    },
+    {
+        id:3,
+        img:'https://cdn.shopify.com/s/files/1/1636/8779/files/layout.png?v=1491835677',
+        title:'Drag & Drop Page',
+        desc:'Fusce arcu molestie eget libero consectetur congue consectetur in bibendum litora'
+    },
+    {
+        id:4,
+        img:'https://cdn.shopify.com/s/files/1/1636/8779/files/picture.png?v=1491835656',
+        title:'Revolution Slider',
+        desc:'Fusce arcu molestie eget libero consectetur congue consectetur in bibendum litora'
+    },
+    {
+        id:5,
+        img:'https://cdn.shopify.com/s/files/1/1636/8779/files/layout.png?v=1491835677',
+        title:'Drag & Drop Page',
+        desc:'Fusce arcu molestie eget libero consectetur congue consectetur in bibendum litora'
+    },
+    {
+        id:6,
+        img:'https://cdn.shopify.com/s/files/1/1636/8779/files/settings.png?v=1491835711',
+        title:'Customizable Page',
+        desc:'Fusce arcu molestie eget libero consectetur congue consectetur in bibendum litora'
+    },
+]

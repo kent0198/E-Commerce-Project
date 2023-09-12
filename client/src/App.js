@@ -1,12 +1,13 @@
-import React, { useEffect } from 'react';
+import React, { useEffect,useState } from 'react';
 import { Route, Routes } from 'react-router-dom'
 import path from './ultils/path'
 import { Login, Public, 
          Home, DetailProduct, 
-         FQA, Blog, Service, 
+          Blog, Service, 
          Products, FinalRegister, 
-         ResetPassword,DetailCart } 
+         ResetPassword,DetailCart,DetailBlogg } 
 from './pages/public'
+import {ModelBelow} from './components'
 import { AdminLayout,CreateProducts,Dashboard,ManageOrder,ManageProducts,ManageUser } from './pages/Admin';
 import {Personal,MemberLayout,History,MyCart,WishList } from './pages/member';
 import { getCategories } from './store/app/asyncActions';
@@ -20,10 +21,22 @@ import { showCart } from './store/app/appSlice';
 function App() {
 
   const dispatch = useDispatch()
+  const [showModal, setShowModal] = useState(false);
   const {isShowModal, modalChildren,isShowCart}=useSelector(state=>state.app)  
   useEffect(() => {
     dispatch(getCategories())
   }, [])
+
+  useEffect(() => {
+    window.addEventListener('load', () => {
+      setTimeout(() => {
+        setShowModal(true);
+        setTimeout(() => {
+          setShowModal(false);
+        }, 4000);
+      }, 3000);
+    });
+  }, []);
 
   return (
     <div className="min-h-screen font-main  relative">
@@ -31,16 +44,17 @@ function App() {
           <Cart/>
         </div>}
         {isShowModal && <ModalVote>{modalChildren}</ModalVote>}
+        {showModal && <ModelBelow/>}
       <Routes>
         <Route path={path.PUBLIC} element={<Public />}>
           <Route path={path.HOME} element={<Home />} />
           <Route path={path.BLOGS} element={<Blog />} />
           <Route path={path.DETAIL__PRODUCT__CATEGORY__PID__TITLE} element={<DetailProduct />} />
-          <Route path={path.FAQs} element={<FQA />} />
           <Route path={path.SERVICES} element={<Service />} />
           <Route path={path.PRODUCTS} element={<Products />} />
           <Route path={path.RESET_PASSWORD} element={<ResetPassword />} />
           <Route path={path.DETAIL_CART} element={<DetailCart />} />
+          <Route path={path.DETAIL_BLOG} element={<DetailBlogg />} />
         </Route>
         <Route path={path.ADMIN} element={<AdminLayout/>}>
             <Route path={path.DASHBOARD} element={<Dashboard/>}/>

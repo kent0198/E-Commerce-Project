@@ -256,3 +256,24 @@ input{
 .my-masonry-grid_column > div { /* change div to reference your elements you put in <Masonry> */
   margin-bottom: 30px;
 }
+
+.wave-effect{
+  mask-image: linear-gradient(
+    -75deg,
+    rgba(0, 0, 0, 0.3) 30%,
+    #000 50%,
+    rgba(0, 0, 0, 0.2) 90%
+  );
+  -webkit-mask-image: linear-gradient(
+    -75deg,
+    rgba(0, 0, 0, 0.3) 30%,
+    #000 50%,
+    rgba(0, 0, 0, 0.3) 90%
+  );
+  mask-size: 200%;
+  -webkit-mask-size: 200%;
+  animation: shine 2s linear infinite;
+}
+.optimize-legibility {
+  text-rendering: optimizeLegibility;
+}

@@ -38,5 +38,9 @@ export {default as QuickView} from './QuickView'
 export {default as Cart} from './Cart'
 export {default as ForgotPasswordModel} from './ForgotPasswordModel'
 export {default as QuickViewModel} from './QuickViewModel'
+export {default as ModelBelow} from './ModelBelow'
+export {default as DetailBlog} from './DetailBlog'
+export {default as CardService} from './CardService'
+
 
 

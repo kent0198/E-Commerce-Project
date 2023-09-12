@@ -1,9 +1,11 @@
 const Product=require('../models/product')
-const asyncHandler=require('express-async-handler')
-const data=require('../../../data/ecommerce.json')
-const slugify = require('slugify')
-const dataCate=require('../../../data/brand_cate')
 const productCaterogy = require('../models/productCaterogy')
+const Blog=require('../models/blog')
+const data=require('../../../data/ecommerce.json')
+const dataCate=require('../../../data/brand_cate')
+const dataBlog=require('../../../data/blog')
+const slugify = require('slugify')
+const asyncHandler=require('express-async-handler')
 
 
 const fn =async(product)=>{
@@ -42,13 +44,34 @@ const fn2=async(cate)=>{
         image:cate?.image,
     })
 }
+
 const insertCategory=asyncHandler(async(req, res)=>{
     const promises=[]
     for (let cate of dataCate)  promises.push(fn2(cate))
     await Promise.all(promises)
     return res.json('Done')
 })
+
+
+const f3=async(blog)=>{
+    await Blog.create({
+        title:blog?.title,
+        desc:blog?.desc,
+        category:blog?.category,
+        numberViews:blog?.numberViews,
+        image:blog?.image,
+        author:blog?.author,
+    })
+}
+const insertBlog=asyncHandler(async(req, res)=>{
+    const promises=[]
+    for (let blog of dataBlog ) promises.push(f3(blog))
+    await Promise.all(promises)
+    return res.json('Done')
+})
+
 module.exports = {
     insertProduct,
-    insertCategory
+    insertCategory,
+    insertBlog,
 }

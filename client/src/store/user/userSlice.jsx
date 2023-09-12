@@ -25,7 +25,6 @@ export const userSlice=createSlice({
             state.mes='' 
         },
         updateCartItemQuantity: (state, action) => {
-
             if (state.current.cart.length === 0) return;
             const { itemId, quantity } = action.payload;
             const itemIdx = state.current.cart.findIndex(item => item._id === itemId);

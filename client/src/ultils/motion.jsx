@@ -76,7 +76,6 @@ export const textVariant = (delay) => {
       },
     };
   };
-  // được sử dụng để tạo hoạt ảnh cho sự xuất hiện của nhiều thành phần trong vùng chứa với hiệu ứng
   export const staggerContainer = (staggerChildren, delayChildren) => {
     return {
       hidden: {},
