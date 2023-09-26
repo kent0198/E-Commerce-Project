@@ -4,6 +4,7 @@ import {useForm} from 'react-hook-form'
 import { useSelector } from 'react-redux'
 import { validate,getBase64 } from '../../ultils/helper'
 import { toast } from 'react-toastify'
+import { apiCreatePropduct } from '../../apis/product'
 
 
 const CreateProducts = () => {
@@ -25,13 +26,19 @@ const CreateProducts = () => {
   },[payload])
 
 
-  const handleCreateProduct=(data)=>{
+  const handleCreateProduct=async (data)=>{
     const invalids=validate(payload,setInvalidFields)
     if(invalids===0){
       if(data.category) data.category=categories?.find(el=>el._id===data.category)?.title
       const finalPayload={...data, ...payload}
       const formData=new FormData()
       for (let i of Object.entries(finalPayload))  formData.append(i[0], i[1])
+      if(finalPayload.thumb) formData.append('thumb',finalPayload.thumb[0])
+      if(finalPayload.images){
+        for(let image of finalPayload.images) formData.append('images',image)
+      }
+      const response=await apiCreatePropduct(formData)
+      console.log(response)
     }
   }
    const handlePreview=async (file)=>{

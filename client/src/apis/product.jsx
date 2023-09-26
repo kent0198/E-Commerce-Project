@@ -15,3 +15,8 @@ export const apiRatings=(data)=>axios({
     method:'put',
     data
 })
+export const apiCreatePropduct=(data)=>axios({
+    url:'/product/',
+    method:'post',
+    data
+})

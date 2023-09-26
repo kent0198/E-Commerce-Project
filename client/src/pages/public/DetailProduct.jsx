@@ -15,7 +15,7 @@ import path from '../../ultils/path'
 import { apiUpdateCart } from '../../apis/user'
 import { toast } from 'react-toastify'
 import { useDispatch } from 'react-redux'
-
+import DOMPurify from 'dompurify'
 
 var settings = {
   dots: true,
@@ -152,7 +152,8 @@ const DetailProduct = ({ isQuickView }) => {
               <div className='text-sm text-gray-600'>{`(Sold : ${product?.sold})`}</div>
             </div>
             <ul className='list-item text-sm text-gray-500 pl-5'>
-              {product?.description?.map(el => (<li className='list-disc' key={el}>{el}</li>))}
+              {product?.description?.lenght > 1 && product?.description?.map(el => (<li className='list-disc' key={el}>{el}</li>))}
+              {product?.description?.lenght ===1 && <div className='text-sm line-clamp-[10]' dangerouslySetInnerHTML={{__html:DOMPurify.sanitize(product?.description[0])}} ></div>}
             </ul>
             <div className='flex flex-col gap-8'>
               <SelectQuantily quantily={quantily} handleQuantily={handleQuantily} handleChangeQuantity={handleChangeQuantity} />
