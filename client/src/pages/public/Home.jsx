@@ -1,7 +1,6 @@
-import React, { useEffect, useState } from 'react'
+import React from 'react'
 import { Sidebar, Banner,BestSeller ,DealDaily, FeatureProducts,CustomSlider} from '../../components'
-import { UseSelector, useSelector } from 'react-redux'
-import { useSearchParams } from 'react-router-dom'
+import { useSelector } from 'react-redux'
 import icons from '../../ultils/icons'
 import {BlogPost} from '../../components'
 

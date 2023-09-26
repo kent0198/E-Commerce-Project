@@ -15,6 +15,7 @@ import path from '../ultils/path'
 const {AiOutlineCloseCircle,ImBin}=icons
 
 const Cart = ({dispatch,navigate}) => {
+  
   const {current}=useSelector(state=>state.user)
   
 

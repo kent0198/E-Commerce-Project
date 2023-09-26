@@ -48,8 +48,6 @@ const Login = () => {
 
     const { firstname, lastname, phone, ...data } = payload
     const invalids=isRegister  ? validate(payload,setInvalidFields) : validate(data,setInvalidFields)
-   
-
     if(invalids ===0){
       if (isRegister) {
         setLoading(true)

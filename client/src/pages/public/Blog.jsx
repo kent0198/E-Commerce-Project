@@ -27,7 +27,7 @@ const Blog = ({location}) => {
     <div className='w-main h-full'>
         <div className='text-gray-800 mb-[10px] uppercase leading-[1.15] font-bold'>NEWS</div>
         <Breadcumb category={cleanPath}/>
-        <div className='grid-rows-2 grid gap-4 p'>
+        <div className='grid-rows-2 grid gap-4'>
         <Masonry
           breakpointCols={3}
           className="my-masonry-grid flex "

@@ -1,7 +1,7 @@
 import path from "./path";
 import icons from './icons'
 
-const { AiOutlineDashboard,GrGroup,RiProductHuntLine,RiBillLine} =icons
+const { AiOutlineDashboard,GrGroup,RiProductHuntLine,RiBillLine,BiBookAlt,FaRegWindowRestore,AiOutlineUserAdd} =icons
 
 export const navigation=[
     {
@@ -166,5 +166,36 @@ export const services=[
         img:'https://cdn.shopify.com/s/files/1/1636/8779/files/settings.png?v=1491835711',
         title:'Customizable Page',
         desc:'Fusce arcu molestie eget libero consectetur congue consectetur in bibendum litora'
+    },
+]
+
+export const Dashboard=[
+    {
+        id:1,
+        title:'Bookings',
+        count:'281',
+        desc:'+55% than lask week',
+        icon:<BiBookAlt size={30} color="white"/>
+    },
+    {
+        id:2,
+        title:'Todays User',
+        count:'2300',
+        desc:'+3% than lask month',
+        icon:<FaRegWindowRestore size={30} color="white"/>
+    },
+    {
+        id:3,
+        title:'Revenue',
+        count:'34k',
+        desc:'+55% than lask week',
+        icon:<AiOutlineUserAdd size={30} color="white"/>
+    },
+    {
+        id:4,
+        title:'Follower',
+        count:'+91',
+        desc:'Just updated',
+        icon:<AiOutlineUserAdd size={30} color="white"/>
     },
 ]
