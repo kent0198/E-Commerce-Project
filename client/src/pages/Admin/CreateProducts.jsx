@@ -1,7 +1,7 @@
 import React,{useCallback, useEffect, useState} from 'react'
 import { Button, InputForm , Select,MarkDownEditor} from '../../components'
 import {useForm} from 'react-hook-form'
-import { useSelector } from 'react-redux'
+import { useSelector, useDispatch } from 'react-redux'
 import { validate,getBase64 } from '../../ultils/helper'
 import { toast } from 'react-toastify'
 import { apiCreatePropduct } from '../../apis/product'
@@ -38,7 +38,14 @@ const CreateProducts = () => {
         for(let image of finalPayload.images) formData.append('images',image)
       }
       const response=await apiCreatePropduct(formData)
-      console.log(response)
+      if(response.success){
+        toast.success(response.mes)
+        reset()
+        setpayload({
+          thumb:'',
+          image:[],
+        })
+      }
     }
   }
    const handlePreview=async (file)=>{

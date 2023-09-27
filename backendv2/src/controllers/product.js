@@ -16,7 +16,7 @@ const createProduct = asyncHandler(async (req, res) => {
     const newProduct = await Product.create(req.body)
     return res.status(200).json({
         success: newProduct ? true : false,
-        createdProduct: newProduct ? newProduct : 'Cannot create new product'
+        mes: newProduct ? 'Created' : 'Cannot create new product'
     })
 })
 const getProduct = asyncHandler(async (req, res) => {
@@ -61,8 +61,20 @@ const getProducts = asyncHandler(async (req, res) => {
         const colorQuery=colorArr.map(el=>({color:{$regex:el, $options:'i'}}))
         colorQueryObject={$or:colorQuery}
     } 
-    const q={...colorQueryObject,...formatedQueries}
-    let queryCommand=Product.find(q) // sau khi  chay de day thi queryCommand van co o trong hang doi chu chua duoc chay
+
+    let queryObject={}
+    if(queries?.q){
+        delete formatedQueries.q
+        queryObject={
+            $or:[
+                {title:{$regex:queries.q,$options:'i'}},
+                {category:{$regex:queries.q,$options:'i'}},
+                {color:{$regex:queries.q,$options:'i'}},
+            ]
+        }
+    }
+    const qr={...colorQueryObject,...formatedQueries,...queryObject}
+    let queryCommand=Product.find(qr) // sau khi  chay de day thi queryCommand van co o trong hang doi chu chua duoc chay
     
 
     //sortting  abc,def=>[adc,def]=>abc def
@@ -88,9 +100,9 @@ const getProducts = asyncHandler(async (req, res) => {
 
     //Execute Query
     //So luong san pham thoa man dieu kien !== so luong san pham tra ve sau 1 lan goi API 
-    queryCommand.then(async(respone)=>{
+    queryCommand.then(async(respone)=>{ 
         try{
-        const counts=await Product.find(q).countDocuments()
+        const counts=await Product.find(qr).countDocuments()
         return res.status(200).json({
             success:respone ? true :false,
             counts,

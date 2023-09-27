@@ -10,7 +10,7 @@ const usePagination = (totalProductCount, currentPage , siblingCount=1) => {
 
         const pagesize= process.env.REACT_APP_PRODUCT_LIMIT ||10 
         const paginationCount=Math.ceil(totalProductCount/pagesize)
-        const totalPaginatioItem=siblingCount+5
+        const totalPaginatioItem=siblingCount+3
         if(paginationCount<=totalPaginatioItem) return generateRange(1, paginationCount)
 
         const isShowLeft=currentPage-siblingCount >2
