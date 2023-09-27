@@ -281,3 +281,7 @@ input{
 .optimize-legibility {
   text-rendering: optimizeLegibility;
 }
+
+.slick-dots{
+   visibility: hidden;
+}
