@@ -121,7 +121,7 @@ const DetailProduct = ({ isQuickView }) => {
       }
       <div className='w-main m-auto mt-8 flex'>
         <div className='flex-4 flex flex-col gap-4 w-2/5 '>
-          <div className='h-[470px] w-[470px]'>
+          <div className='h-[470px] w-[470px] border border-gray-300'>
             <ReactImageMagnify {...{
               smallImage: {
                 alt: 'Wristwatch by Ted Baker London',

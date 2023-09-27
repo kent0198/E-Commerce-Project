@@ -9,7 +9,7 @@ const Select = ({label,options=[],register, errors, id, validate, style, fullWid
       <select defaultValue={defaultValue} className={clsx('form-select my-auto', fullWidth && 'w-full')} id={id} {...register(id, validate)}>
           <option value="">---CHOOSE---</option>
           {options?.map(el=>(
-            <option value={el.code}>{el.value}</option>
+            <option value={el.code?.toLowerCase()}>{el.value}</option>
           ))}
       </select>
       {errors[id] && <small className='text-xs text-red-500'>{errors[id]?.message}</small>}

@@ -1,10 +1,11 @@
-import React,{useEffect, useState} from 'react'
+import React,{useCallback, useEffect, useState} from 'react'
 import {InputForm, Pagination} from '../../components'
 import { useForm } from 'react-hook-form'
 import { apiGetProducts } from '../../apis/product'
 import moment from 'moment'
 import { useSearchParams ,createSearchParams,useNavigate,useLocation} from 'react-router-dom'
 import useDebounce from '../../hooks/useDebounce'
+import UpdateProducts from './UpdateProducts'
 
 const ManageProducts = () => {
   const navigate=useNavigate()
@@ -13,9 +14,12 @@ const ManageProducts = () => {
   const {register, formState:{errors},handleSubmit,reset,watch}=useForm()
   const [products, setProducts] = useState(null)
   const [counts, setCounts] = useState(0)
-  const handleSearchProducts=(data)=>{
-    console.log(data)
-  }
+  const [editProduct, seteditProduct] = useState(null)
+  const [update, setUpdate] = useState(false)
+  
+  const render=useCallback(()=>{
+    setUpdate(!update)
+  },[])
 
   const fecthProducts=async (params)=>{
     const response=await apiGetProducts({...params,limit:process.env.REACT_APP_PRODUCT_LIMIT})
@@ -29,16 +33,21 @@ const ManageProducts = () => {
       const searchParams=Object.fromEntries([...params])
       if(queryDecounce) searchParams.q=queryDecounce
       fecthProducts(searchParams)
-  },[params,queryDecounce])
+  },[params,queryDecounce,update])
 
   return (
     <div className='w-full flex flex-col gap-4 relative pl-8' >
+      {editProduct &&
+        <div className='absolute inset-0 min-h-screen bg-gray-100 z-50'>
+        <UpdateProducts editProduct={editProduct} render={render}/>
+    </div>
+      }
       <div className='h-[69px] w-full'></div>
       <div className='p-4 border-b w-full bg-gray-100 flex justify-between items-center fixed top-0' >
             <h1 className='text-3xl font-bold tracking-tight'>Manage Products</h1>
       </div>
       <div className='flex  justify-end items-center px-4'>
-          <form  onSubmit={handleSubmit(handleSearchProducts)} className='w-[45%]'>
+          <form className='w-[45%]'>
             <InputForm 
             id="q"
             register={register}
@@ -63,6 +72,7 @@ const ManageProducts = () => {
               <th className='text-center '>Color</th>
               <th className='text-center'>Ratings</th>
               <th className='text-center'>UpdatedAt</th>
+              <th className='text-center'>Action</th>
             </tr>
           </thead>
           <tbody>
@@ -82,6 +92,10 @@ const ManageProducts = () => {
                     <td className='text-center py-2'>{el.color}</td>
                     <td className='text-center py-2'>{el.totalRatings}</td>
                     <td className='text-center py-2'>{moment(el.createdAt).format('DD/MM/YYYY')}</td>
+                    <td className='text-center py-2 text-sm'>
+                        <span onClick={()=>seteditProduct(el)} className='text-blue-500 hover:underline cursor-pointer px-1 transition'>EDIT</span>
+                        <span className='text-blue-500 hover:underline cursor-pointer px-1 transition'>DELETE</span>
+                    </td>
                 </tr>
               ))}
           </tbody>

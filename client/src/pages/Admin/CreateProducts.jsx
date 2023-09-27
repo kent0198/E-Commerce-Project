@@ -55,6 +55,7 @@ const CreateProducts = () => {
 
   const handlePreviewImages=async(files)=>{
     const imagesPreview=[]
+    if(files!==undefined && files!==null){
     for( let file of files){
       if(file.type!=="image/png" &&  file.type!=="image/jpeg"){
         toast('File not supported')
@@ -66,6 +67,7 @@ const CreateProducts = () => {
         path:base64
       })
     }
+  }
     if (imagesPreview.length > 0 ) setPreview(prev=>({...prev, images:imagesPreview}))
   }
   useEffect(()=>{
